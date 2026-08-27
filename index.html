@@ -2,22 +2,253 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Librería de 3D Assets de David</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Biblioteca de 3D Assets de David</title>
+
     <script
       type="module"
       src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
     ></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          sans-serif;
+
+        background: #111;
+        color: #eee;
+      }
+
+      header {
+        padding: 50px 40px 30px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      header h1 {
+        margin: 0 0 10px;
+        font-size: 2.5rem;
+      }
+
+      header p {
+        margin: 0;
+        color: #999;
+        font-size: 1rem;
+      }
+
+      #assets {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px 40px 60px;
+
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+
+        gap: 24px;
+      }
+
+      .asset-card {
+        overflow: hidden;
+
+        background: #1b1b1b;
+        border: 1px solid #292929;
+        border-radius: 16px;
+
+        transition:
+          transform 0.2s ease,
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .asset-card:hover {
+        transform: translateY(-4px);
+        border-color: #444;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+      }
+
+      .viewer-container {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+
+        background: #151515;
+      }
+
+      model-viewer {
+        width: 100%;
+        height: 100%;
+
+        --poster-color: #151515;
+      }
+
+      .asset-info {
+        padding: 18px 20px 20px;
+      }
+
+      .asset-name {
+        margin: 0 0 8px;
+
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .asset-category {
+        display: inline-block;
+
+        margin-bottom: 12px;
+        padding: 4px 9px;
+
+        border-radius: 6px;
+
+        background: #292929;
+        color: #aaa;
+
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .asset-description {
+        margin: 0;
+
+        color: #aaa;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .empty-message {
+        grid-column: 1 / -1;
+
+        padding: 60px 20px;
+
+        text-align: center;
+        color: #777;
+      }
+
+      @media (max-width: 600px) {
+        header {
+          padding: 35px 20px 20px;
+        }
+
+        header h1 {
+          font-size: 2rem;
+        }
+
+        #assets {
+          padding: 20px;
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
+
   <body>
-    <h1>Librería de 3D Assets de David</h1>
-    <p>Tamos hasiendo pruebas 👀</p>
-    <model-viewer
-      src="models/Laptop.glb"
-      camera-controls
-      auto-rotate
-      shadow-intensity="1"
-      style="width: 100%; height: 600px"
-    >
-    </model-viewer>
+    <header>
+      <h1>Biblioteca de 3D Assets de David</h1>
+      <p>Modelos 3D creados por mí.</p>
+    </header>
+
+    <main id="assets"></main>
+
+    <script>
+      const container = document.getElementById('assets')
+
+      fetch('assets.json')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('No se pudo cargar assets.json')
+          }
+
+          return response.json()
+        })
+        .then((assets) => {
+          if (assets.length === 0) {
+            container.innerHTML = `
+              <div class="empty-message">
+                No hay assets todavía.
+              </div>
+            `
+
+            return
+          }
+
+          assets.forEach((asset) => {
+            const card = document.createElement('article')
+            card.className = 'asset-card'
+
+            const viewerContainer = document.createElement('div')
+
+            viewerContainer.className = 'viewer-container'
+
+            const model = document.createElement('model-viewer')
+
+            model.src = asset.file
+            model.alt = asset.name
+
+            model.setAttribute('camera-controls', '')
+
+            model.setAttribute('auto-rotate', '')
+
+            model.setAttribute('shadow-intensity', '1')
+
+            model.setAttribute('touch-action', 'pan-y')
+
+            const info = document.createElement('div')
+
+            info.className = 'asset-info'
+
+            info.innerHTML = `
+              <h2 class="asset-name">
+                ${asset.name}
+              </h2>
+
+              <span class="asset-category">
+                ${asset.category}
+              </span>
+
+              <p class="asset-description">
+                ${asset.description || 'Sin descripción.'}
+              </p>
+              <a
+                class="download-button"
+                href="${asset.file}"
+                download
+              >
+                Descargar GLB
+              </a>
+            `
+
+            viewerContainer.appendChild(model)
+
+            card.appendChild(viewerContainer)
+            card.appendChild(info)
+
+            container.appendChild(card)
+          })
+        })
+        .catch((error) => {
+          console.error(error)
+
+          container.innerHTML = `
+            <div class="empty-message">
+              Error cargando la biblioteca.
+            </div>
+          `
+        })
+    </script>
   </body>
 </html>

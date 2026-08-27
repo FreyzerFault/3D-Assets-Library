@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Laptop",
+    "file": "models/Laptop.glb",
+    "category": "Props",
+    "description": "Portátil de la Junta de Andalucía"
+  },
+  {
+    "name": "Bowblade",
+    "file": "models/bowblade.glb",
+    "category": "Props",
+    "description": "Hoja Arco de Simon - Bloodborne"
+  }
+]
