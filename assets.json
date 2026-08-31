@@ -10,5 +10,155 @@
     "file": "models/bowblade.glb",
     "category": "Props",
     "description": "Hoja Arco de Simon - Bloodborne"
+  },
+  {
+    "name": "Aceituna",
+    "file": "models/aceituna.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Blitz",
+    "file": "models/Blitz.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Brazo Ejercicio",
+    "file": "models/Brazo_Ejercicio.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Cabeza Ejercicio",
+    "file": "models/Cabeza_Ejercicio.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Cabeza Referencia",
+    "file": "models/Cabeza_Referencia.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Ejercicio 1   Tanque",
+    "file": "models/Ejercicio 1 - Tanque.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Ejercicio Casco Vikingo",
+    "file": "models/Ejercicio_Casco_Vikingo.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Ejercicio Espada Esmeralda",
+    "file": "models/Ejercicio_Espada_Esmeralda.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Ejercicio Hacha",
+    "file": "models/Ejercicio_Hacha.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Ejercicio Mascara Muerte",
+    "file": "models/Ejercicio_Mascara_Muerte.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Male Body 2 ",
+    "file": "models/Male body 2 .glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Pie Ejercicio",
+    "file": "models/Pie_Ejercicio.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Puerta",
+    "file": "models/puerta.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Robot Claw",
+    "file": "models/Robot_Claw.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Shield",
+    "file": "models/Shield.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Shield Damaged",
+    "file": "models/Shield_Damaged.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Snivy",
+    "file": "models/Snivy.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Sonic+ 4.1 Update3",
+    "file": "models/Sonic+ 4.1 Update3.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Spinosaurus",
+    "file": "models/spinosaurus.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Steve   Armature",
+    "file": "models/Steve - Armature.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Steve",
+    "file": "models/Steve.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Super Mario 64 Castle",
+    "file": "models/Super Mario 64 Castle.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Superheroe Hpoly",
+    "file": "models/Superheroe HPoly.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Superheroe Lpoly",
+    "file": "models/Superheroe LPoly.glb",
+    "category": "Props",
+    "description": ""
+  },
+  {
+    "name": "Wario Head",
+    "file": "models/Wario Head.glb",
+    "category": "Props",
+    "description": ""
   }
 ]
