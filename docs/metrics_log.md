@@ -20,8 +20,11 @@ Este fichero recoge el historial legible de mediciones ejecutadas por scripts/re
 ---
 
 (Entradas posteriores se añadirán con formato similar por scripts/record_metrics.py)
+
 ---
-## 2026-09-15T22:31:16.706535+00:00 UTC  — automated metrics
+
+## 2026-09-15T22:31:16.706535+00:00 UTC — automated metrics
+
 - Commit: 33cab16
 - Tests: 14 total, 0 failed
 - Test duration (s): 0.74
@@ -33,9 +36,10 @@ Este fichero recoge el historial legible de mediciones ejecutadas por scripts/re
   - issues: 0
   - warnings: 6
 
-
 ---
-## 2026-09-15T22:31:35.757482+00:00 UTC  — automated metrics
+
+## 2026-09-15T22:31:35.757482+00:00 UTC — automated metrics
+
 - Commit: 33cab16
 - Tests: 14 total, 0 failed
 - Test duration (s): 0.37
@@ -47,9 +51,10 @@ Este fichero recoge el historial legible de mediciones ejecutadas por scripts/re
   - issues: 0
   - warnings: 6
 
-
 ---
-## 2026-09-15T22:51:43.402704+00:00 UTC  — automated metrics
+
+## 2026-09-15T22:51:43.402704+00:00 UTC — automated metrics
+
 - Commit: c9f2f61
 - Tests: 19 total, 0 failed
 - Test duration (s): 0.40
@@ -63,15 +68,31 @@ Este fichero recoge el historial legible de mediciones ejecutadas por scripts/re
   - issues: 0
   - warnings: 6
 
-
 ---
-## 2026-09-15T22:53:09.585548+00:00 UTC  — automated metrics
+
+## 2026-09-15T22:53:09.585548+00:00 UTC — automated metrics
+
 - Commit: c9f2f61
 - Tests: 19 total, 0 failed
 - Test duration (s): 0.36
 - Coverage total: 79.1866028708134%
 - Coverage highlights:
   - generate_assets_data.py: None%
+  - scripts\metrics_trend.py: None%
+  - scripts\record_metrics.py: None%
+- Catalog metrics:
+  - total_assets: 28
+  - issues: 0
+  - warnings: 6
+---
+## 2026-09-15T23:11:19.105863+00:00 UTC  — automated metrics
+- Commit: 9d71842
+- Tests: 21 total, 0 failed
+- Test duration (s): 0.43
+- Coverage total: 76.54584221748401%
+- Coverage highlights:
+  - generate_assets_data.py: None%
+  - run_automation.py: None%
   - scripts\metrics_trend.py: None%
   - scripts\record_metrics.py: None%
 - Catalog metrics:

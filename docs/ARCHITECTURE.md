@@ -18,11 +18,15 @@
 ├── style.css
 ├── assets.json
 ├── generate_assets_data.py
+├── run_automation.py
+├── run_automation.bat
 ├── models/
 ├── docs/
 │   ├── SPECIFICATIONS.md
 │   ├── ARCHITECTURE.md
-│   └── task.md
+│   ├── task.md
+│   ├── METRICS.md
+│   └── metrics_log.md
 ├── tests/
 ├── .github/
 ├── AGENTS.md
@@ -47,6 +51,16 @@ Script de mantenimiento que:
 - normaliza nombres y rutas
 - valida entradas duplicadas o rotas
 - actualiza `assets.json`
+
+### `run_automation.py` y `run_automation.bat`
+
+Punto único de acceso para la operación del repositorio. El flujo automatizado:
+
+- genera el catálogo y el reporte de validación
+- ejecuta la suite de tests
+- escribe las métricas del proyecto
+
+Esto reduce la fricción operativa para colaboradores y evita depender de varios comandos separados o de una consola de Python cada vez.
 
 ### `models/`
 
@@ -90,38 +104,45 @@ Esto permite crecer hacia un catálogo más rico sin cambiar la base estática i
 
 A continuación se almacenan las alternativas y recomendaciones discutidas para futuras evoluciones. Sirven como guía para decidir migraciones cuando la necesidad técnica las justifique.
 
-1) Mantener estático y simple (recomendado por defecto)
+1. Mantener estático y simple (recomendado por defecto)
+
 - Frontend: HTML/CSS/JS estático que consume `assets.json`.
 - Scripts: Python para exploración de ficheros, validación y generación de catálogo.
 - Por qué: baja fricción, fácil mantenimiento, ideal para repositorios pequeños.
 - Cuándo: catálogo pequeño, pocos colaboradores, sin necesidad de backend.
 
-2) Crecer modularmente (si la base aumenta)
+1. Crecer modularmente (si la base aumenta)
+
 - Convertir scripts en paquete Python (ej: src/pygen) y exponer un CLI (entrypoint). Añadir pyproject.toml.
 - Introducir linters (black, flake8), pruebas más completas y CI (GitHub Actions).
 - Frontend: mantener estático pero modularizar; usar un bundler ligero (Vite) si crece la complejidad.
 - Considerar migración gradual a pytest y mypy si se necesita mayor ergonomía de tests y type checking.
 
-3) Unificar en JavaScript/TypeScript (cuando el equipo y los requisitos lo pidan)
+1. Unificar en JavaScript/TypeScript (cuando el equipo y los requisitos lo pidan)
+
 - Ventaja: una sola stack para frontend y scripts si se prefiere unificar en Node.js.
 - Coste: mayor tooling, menos ergonomía para operaciones del sistema en comparación con Python.
 - Recomendación: sólo migrar si el equipo prefiere JS/TS y hay razones claras (p. ej. añadir lógica compartida que deba ejecutarse en node en producción).
 
-4) Aplicación de escritorio para operación (opcional, herramienta de operador)
+1. Aplicación de escritorio para operación (opcional, herramienta de operador)
+
 - Opción ligera: mantener la lógica en Python y crear GUI con PySide6 o CustomTkinter (rápido de implementar, integración directa con scripts actuales).
 - Opción nativa/pulida: .NET (WPF/WinUI/MAUI) para apps Windows/ multiplataforma más «oficiales».
 - Opción web híbrida: Electron/Tauri si se quiere UI web empaquetada (mayor coste en recursos).
 - Recomendación: empezar con Python+PySide6 si la app es una herramienta local; migrar a .NET solo si se necesita experiencia Windows nativa y se justifica el coste.
 
-5) CI / calidad y ergonomía de desarrollo
+1. CI / calidad y ergonomía de desarrollo
+
 - Recomendado: GitHub Actions que ejecute linter y tests en cada PR.
 - Mantener TESTING.md y AGENTS.md sincronizados con la política de ejecución de tests.
 
-6) Herramientas complementarias
+1. Herramientas complementarias
+
 - Blender: imprescindible para validar/editar modelos `.glb` (herramienta de contenido, no IDE del repo).
 - PyCharm / VS Code / WebStorm: elegir según foco (Python-heavy → PyCharm; frontend-heavy → WebStorm; equilibrio y agente work → VS Code).
 
 Criterios para decidir migraciones
+
 - Migrar solo cuando haya una ganancia clara en productividad, colaboración o rendimiento.
 - Priorizar migraciones incrementales: empaquetar scripts, añadir CI, refactorizar en módulos, luego considerar cambio de lenguaje o GUI.
 - Documentar cada migración en docs/ARCHITECTURE.md y docs/task.md, y actualizar AGENTS.md para las nuevas reglas operativas.

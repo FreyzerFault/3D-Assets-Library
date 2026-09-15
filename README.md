@@ -42,12 +42,26 @@ Métricas del proyecto: [docs/METRICS.md](docs/METRICS.md)
 
 ## Cómo usarlo
 
+### Flujo manual
+
 1. Añade un archivo `.glb` en `models/`.
 2. Ejecuta:
    ```bash
    python generate_assets_data.py
    ```
 3. Abre `index.html` en un navegador o sirve el proyecto con un servidor estático.
+
+### Flujo único de automatización
+
+Para lanzar la validación completa del proyecto con un solo clic en Windows:
+
+- Haz doble clic en `run_automation.bat`
+- O ejecuta desde consola:
+  ```bash
+  python run_automation.py
+  ```
+
+Este punto de entrada ejecuta, en orden, la regeneración del catálogo, la suite de tests y el registro de métricas del proyecto.
 
 ## Requisitos
 

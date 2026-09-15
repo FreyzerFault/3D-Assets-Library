@@ -54,6 +54,11 @@ Ordenado por impacto y coste (alta → baja). Cada ítem incluye criterio de ace
   - Por qué: monitorizar el progreso del proyecto con historial de tests y cobertura sin quitar sencillez ni complejidad.
   - DoD cumplido: existen `scripts/record_metrics.py`, `scripts/metrics_trend.py`, `docs/METRICS.md`, `docs/metrics_log.md` y `docs/metrics_log.json`.
 
+- [COMPLETADO] Punto único de automatización (Alta)
+  - Qué: añadir `run_automation.py` y `run_automation.bat` como entrada única para regenerar el catálogo, ejecutar tests y registrar métricas con un solo clic.
+  - Por qué: reducir fricción operativa y hacer más mantenible la rutina de validación del proyecto.
+  - DoD cumplido: el launcher invoca la generación, validación y métricas en secuencia y puede ejecutarse mediante doble clic en Windows.
+
 - [COMPLETADO] Higiene del repositorio y artefactos locales (Media)
   - Qué: excluir cachés y artefactos generados del versionado y mantener el repositorio limpio.
   - Por qué: evitar ruido en git y conservar la trazabilidad del proyecto.
