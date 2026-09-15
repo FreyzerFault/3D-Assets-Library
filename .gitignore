@@ -16,5 +16,3 @@ models/2gb-plus/
 *.swp
 *.tmp
 
-# Local environment files
-.env

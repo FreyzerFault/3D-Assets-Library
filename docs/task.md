@@ -59,11 +59,6 @@ Ordenado por impacto y coste (alta → baja). Cada ítem incluye criterio de ace
   - Por qué: reducir fricción operativa y hacer más mantenible la rutina de validación del proyecto.
   - DoD cumplido: el launcher invoca la generación, validación y métricas en secuencia y puede ejecutarse mediante doble clic en Windows.
 
-- [COMPLETADO] Bucle de autopilot y webhook de ejemplo (Alta)
-  - Qué: añadir `run_autopilot_loop.py`, `run_autopilot_loop.bat` y `scripts/autopilot_webhook_server.py` para repetir iteraciones, notificar al terminar y preparar un canal de recepción HTTP opcional.
-  - Por qué: permitir un ciclo local de supervisión y ejecución indefinida sin depender de intervención manual en cada vuelta.
-  - DoD cumplido: el bucle ejecuta `run_automation.py` iterativamente, notifica al usuario y permite opcionalmente enviar el mensaje a un webhook seguro configurado con variables de entorno.
-
 - [COMPLETADO] Higiene del repositorio y artefactos locales (Media)
   - Qué: excluir cachés y artefactos generados del versionado y mantener el repositorio limpio.
   - Por qué: evitar ruido en git y conservar la trazabilidad del proyecto.
