@@ -32,6 +32,8 @@ This repository is a lightweight static 3D asset library. The goal is to catalog
   This policy ensures regressions are caught early and that agentic changes remain safe and reversible.
 - After completing a task, create a descriptive git commit with a clear summary of the work completed.
 - If the codebase has diverged substantially since the last meaningful commit, create one descriptive commit for the related changes or split the work into multiple commits when the edits are unrelated, keeping each commit focused and understandable.
+- When tests are updated, always compute project coverage via the repository script (scripts/record_metrics.py) and append the resulting metrics entry to docs/metrics_log.md. The metrics schema and guidance live in docs/METRICS.md.
+- Review and update docs/METRICS.md whenever a milestone or major hito is completed so the metrics definitions remain accurate and actionable.
 - Organize code in clear sections using `#region [DESCRIPTIVE REGION NAME]` blocks when the file grows beyond a small script.
 - Encapsulate logic in small, clear functions and helper scripts instead of keeping everything in one massive script.
 - Use self-explanatory variable and function names; do not rely on comments to compensate for unclear naming.
