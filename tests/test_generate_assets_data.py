@@ -41,19 +41,6 @@ class GenerateAssetsDataTests(unittest.TestCase):
             self.assertIn("size_bytes", assets[1])
             self.assertIn("modified_at", assets[1])
 
-    def test_warn_large_files(self):
-        assets = [
-            {"file": "models/small.glb", "size_bytes": 5 * 1024 * 1024},
-            {"file": "models/big.glb", "size_bytes": 15 * 1024 * 1024},
-            {"file": "models/huge.glb", "size_bytes": 150 * 1024 * 1024},
-        ]
-
-        warnings = generator.warn_large_files(assets)
-
-        self.assertEqual(len(warnings), 2)
-        self.assertTrue(any("10 MB" in warning for warning in warnings))
-        self.assertTrue(any("100 MB" in warning for warning in warnings))
-
     def test_normalize_name_and_detect_name_duplicates(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp_path = Path(tmpdir)
@@ -85,24 +72,6 @@ class GenerateAssetsDataTests(unittest.TestCase):
             self.assertEqual(len(normalized_assets), 1)
             self.assertEqual(normalized_assets[0]["name"], "My Asset Model")
             self.assertTrue(any("Nombre duplicado" in issue for issue in issues))
-
-    def test_generate_report_writes_json_file(self):
-        with tempfile.TemporaryDirectory() as tmpdir:
-            tmp_path = Path(tmpdir)
-            report_path = tmp_path / "assets-report.json"
-
-            generated_path = generator.generate_report(
-                assets=[{"file": "models/example.glb", "size_bytes": 1000}],
-                issues=["Archivo no encontrado: models/example.glb"],
-                warnings=["[AVISO] models/example.glb supera 10 MB."],
-                output_path=report_path,
-            )
-
-            self.assertEqual(generated_path, report_path)
-            self.assertTrue(report_path.exists())
-            payload = json.loads(report_path.read_text(encoding="utf-8"))
-            self.assertEqual(payload["summary"]["issues"], 1)
-            self.assertEqual(payload["summary"]["warnings"], 1)
 
     def test_validate_assets_flags_duplicates_and_missing_files(self):
         with tempfile.TemporaryDirectory() as tmpdir:

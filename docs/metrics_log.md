@@ -48,3 +48,35 @@ Este fichero recoge el historial legible de mediciones ejecutadas por scripts/re
   - warnings: 6
 
 
+---
+## 2026-09-15T22:51:43.402704+00:00 UTC  — automated metrics
+- Commit: c9f2f61
+- Tests: 19 total, 0 failed
+- Test duration (s): 0.40
+- Coverage total: 60.526315789473685%
+- Coverage highlights:
+  - generate_assets_data.py: None%
+  - scripts\metrics_trend.py: None%
+  - scripts\record_metrics.py: None%
+- Catalog metrics:
+  - total_assets: 28
+  - issues: 0
+  - warnings: 6
+
+
+---
+## 2026-09-15T22:53:09.585548+00:00 UTC  — automated metrics
+- Commit: c9f2f61
+- Tests: 19 total, 0 failed
+- Test duration (s): 0.36
+- Coverage total: 79.1866028708134%
+- Coverage highlights:
+  - generate_assets_data.py: None%
+  - scripts\metrics_trend.py: None%
+  - scripts\record_metrics.py: None%
+- Catalog metrics:
+  - total_assets: 28
+  - issues: 0
+  - warnings: 6
+
+

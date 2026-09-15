@@ -24,14 +24,20 @@ Métricas del proyecto: [docs/METRICS.md](docs/METRICS.md)
 ├── assets.json
 ├── generate_assets_data.py
 ├── models/
+│   ├── README.md
+│   ├── large/
+│   ├── projects/
+│   └── 2gb-plus/   # ignorada por git; manejar con LFS o almacenamiento externo
 ├── tests/
 ├── docs/
 │   ├── SPECIFICATIONS.md
 │   ├── ARCHITECTURE.md
+│   ├── METRICS.md
 │   └── task.md
 ├── .github/
 ├── AGENTS.md
-└── .gitignore
+├── .gitignore
+└── .vscode/
 ```
 
 ## Cómo usarlo
@@ -53,6 +59,7 @@ Métricas del proyecto: [docs/METRICS.md](docs/METRICS.md)
 
 - El proyecto está pensado para despliegue estático.
 - La ruta del catálogo y los modelos se resuelven respecto al propio script, no al directorio de trabajo.
+- La organización de modelos sigue una política simple: `models/` para producción, `models/large/` para archivos >100 MB, `models/projects/` para fuentes de autoría y `models/2gb-plus/` para blobs mayores de 2 GB que deben gestionarse fuera del repositorio.
 - La documentación técnica está en `docs/`.
 
 ## Estado actual

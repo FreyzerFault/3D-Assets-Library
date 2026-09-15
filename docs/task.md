@@ -20,56 +20,46 @@
 Ordenado por impacto y coste (alta → baja). Cada ítem incluye criterio de aceptación (DoD).
 
 - [COMPLETADO] Metadata operativa y tamaño (Alta)
-
   - Qué: extraer tamaño de archivo, fecha de modificación y añadir campos `size_bytes`, `modified_at` al catálogo.
   - Por qué: detectar assets pesados y habilitar filtros/umbrales.
   - DoD cumplido: `generate_assets_data.py` añade `size_bytes` y `modified_at`; el script reporta avisos para archivos >10MB y >100MB.
 
 - [COMPLETADO] Política de naming y normalización (Alta)
-
   - Qué: definir y aplicar reglas simples de limpieza de nombres y detectar conflictos tras normalizar.
   - DoD cumplido: el script normaliza `name` y `file`, elimina espacios redundantes y reporta nombres duplicados tras la normalización.
 
 - [COMPLETADO] Validación y reporting (Media)
-
   - Qué: mejorar mensajes de validación, salida CLI y generar un `assets-report.json` con issues detectados.
   - DoD cumplido: ejecución `python generate_assets_data.py --report` genera `assets-report.json` con listas `errors` y `warnings`.
 
 - [COMPLETADO] UX móvil: paginación / lazy loading (Media)
-
   - Qué: implementar paginación simple + lazy-loading de visores para reducir consumo en móviles.
   - DoD cumplido: la vista carga un bloque inicial de assets, permite cargar más y retarda la carga del `model-viewer` hasta que entra en pantalla.
 
 - [COMPLETADO] CI de generación y validación (Baja)
-
   - Qué: añadir workflow de GitHub Actions que ejecute los tests y valide que el catálogo y el reporte se regeneran correctamente.
   - DoD cumplido: existe `.github/workflows/ci.yml`, con ejecución automática en push/PR y validación del catálogo y `assets-report.json`.
 
 - [COMPLETADO] Despliegue automático a GitHub Pages (Baja)
-
   - Qué: preparar un workflow que publique el sitio estático completo en GitHub Pages.
   - DoD cumplido: existe `.github/workflows/deploy-pages.yml` para despliegue manual o automático desde la rama principal.
 
 - [COMPLETADO] Calidad local y cobertura (Alta)
-
   - Qué: añadir pre-commit para lint/format y un job de coverage en CI con artefacto local.
   - Por qué: evitar regresiones pequeñas, mantener el código legible y documentar el nivel de cobertura real.
   - DoD cumplido: existen `.pre-commit-config.yaml`, `.flake8`, `.coveragerc` y el workflow CI ejecuta lint + coverage + validación del catálogo.
 
 - [COMPLETADO] Registro de métricas y tendencia (Alta)
-
   - Qué: añadir scripts para registrar cobertura, generar un log histórico y producir una tendencia ASCII legible.
   - Por qué: monitorizar el progreso del proyecto con historial de tests y cobertura sin quitar sencillez ni complejidad.
   - DoD cumplido: existen `scripts/record_metrics.py`, `scripts/metrics_trend.py`, `docs/METRICS.md`, `docs/metrics_log.md` y `docs/metrics_log.json`.
 
 - [COMPLETADO] Higiene del repositorio y artefactos locales (Media)
-
   - Qué: excluir cachés y artefactos generados del versionado y mantener el repositorio limpio.
   - Por qué: evitar ruido en git y conservar la trazabilidad del proyecto.
   - DoD cumplido: existe `.gitignore` con exclusiones para cachés Python y cobertura local.
 
 - [COMPLETADO] Tests de regresión para scripts de métricas (Media)
-
   - Qué: validar analizadores del historial, cobertura y tendencia para evitar roturas del pipeline de métricas.
   - DoD cumplido: existe `tests/test_metrics_scripts.py` y pasa en la suite del proyecto.
 

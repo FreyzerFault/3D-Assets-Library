@@ -50,7 +50,12 @@ Script de mantenimiento que:
 
 ### `models/`
 
-Directorio de archivos 3D. Actualmente se sirve directamente al navegador en formato `.glb`.
+Directorio de archivos 3D. La política actual separa el contenido por uso y tamaño:
+
+- `models/`: catálogo principal de assets listos para web.
+- `models/large/`: activos >100 MB y <2 GB, aislados para facilitar revisión y control.
+- `models/projects/`: proyectos fuente y materiales (`.blend`, `.fbx`, etc.).
+- `models/2gb-plus/`: ecosistema reservado para activos >2 GB que se mantienen fuera del repositorio o con LFS.
 
 ## Flujo de ejecución
 

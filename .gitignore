@@ -9,6 +9,9 @@ __pycache__/
 .coverage.*
 coverage/
 
+# Large model storage policies
+models/2gb-plus/
+
 # Editor temp files
 *.swp
 *.tmp

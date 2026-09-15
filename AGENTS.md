@@ -55,6 +55,7 @@ This repository is a lightweight static 3D asset library. The goal is to catalog
 ## Critical project facts
 
 - Models live in `models/`.
+- Use `models/large/` for files over 100 MB and `models/projects/` for source or Blender work files, while `models/2gb-plus/` is reserved for >2 GB assets handled outside the repo or via LFS.
 - Catalog lives in `assets.json`.
 - The script `generate_assets_data.py` is the maintenance entry point.
 - The web UI is static and loads `assets.json` from the browser.

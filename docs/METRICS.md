@@ -4,6 +4,17 @@
 
 Este documento define las métricas que se recogen para el proyecto, explica dónde se almacenan y qué eventos disparan una medición. Sirve de referencia para agentes y colaboradores humanos: qué medir, por qué y cómo interpretar los valores.
 
+## Anomalías relevantes detectadas y medidas
+
+Durante la revisión del proyecto, la anomalía más destacable no fue un fallo funcional sino una deriva de mantenimiento: las propias herramientas de métricas (`scripts/record_metrics.py` y `scripts/metrics_trend.py`) estaban poco cubiertas por tests y su salida podía quedar desalineada con la documentación si no se regeneraba desde una única fuente de verdad.
+
+Medidas aplicadas:
+
+- incluir tests específicos para `main()` y para los flujos de escritura de historial y tendencia,
+- tratar la cobertura de estas herramientas como un indicador operativo más, no como dato anecdótico,
+- mantener la métrica de cobertura en un único punto de generación (`python scripts/record_metrics.py`) y usar esa salida como referencia para badge y registro,
+- revisar el historial de métricas cuando se complete un hito para detectar regresiones de calidad o del flujo de automatización.
+
 ## Dónde se almacenan las métricas
 
 - Log legible histórico: docs/metrics_log.md — se añade una entrada cada vez que se ejecuta la medición (normalmente tras una actualización de tests o al completar un hito relevante).

@@ -9,22 +9,23 @@ El sistema actual prioriza simplicidad, portabilidad y facilidad de gestión sob
 ## 2. Estado actual
 
 - El catálogo principal es `assets.json`.
-- Los modelos reales viven en `models/`.
+- Los modelos reales viven en `models/` y siguen una política de almacenamiento por tamaño.
 - La página web se genera con HTML, CSS y JavaScript puro.
 - El script `generate_assets_data.py` detecta nuevos modelos y actualiza el catálogo.
+- El proyecto mantiene una validación automatizada con tests `unittest` y una base mínima de CI.
 - No existe backend ni base de datos productiva.
-- No hay tests automatizados ni pipeline de CI/CD.
 
 ## 3. Requisitos funcionales actuales
 
 ### 3.1 Catalogación de modelos
 
-- El sistema debe detectar automáticamente nuevos archivos `.glb` en `models/`.
+- El sistema debe detectar automáticamente nuevos archivos `.glb` en `models/` y subcarpetas autorizadas.
 - El sistema debe crear una entrada de catálogo para cada modelo nuevo.
 - El sistema debe evitar duplicados y rutas no válidas.
 - El catálogo debe conservar `name`, `file`, `category` y `description`.
 - El catálogo debe almacenar metadatos operativos útiles: `size_bytes` y `modified_at`.
 - El sistema debe advertir cuando un archivo supera los umbrales de tamaño de 10 MB y 100 MB.
+- La estructura de almacenamiento debe respetar la política: `models/large/` para >100 MB, `models/projects/` para fuentes de autoría y `models/2gb-plus/` como compartimento exclusivo para archivos >2 GB no versionados en Git.
 
 ### 3.2 Visualización en web
 
