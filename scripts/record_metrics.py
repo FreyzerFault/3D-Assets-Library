@@ -30,6 +30,58 @@ def run_cmd(cmd, capture_output=True, check=False):
     return subprocess.run(cmd, capture_output=capture_output, text=True)
 
 
+def parse_test_summary(stdout):
+    test_count = 0
+    failed_count = 0
+    match = re.search(r"Ran\s+(\d+)\s+tests?", stdout or "", re.IGNORECASE)
+    if match:
+        test_count = int(match.group(1))
+
+    fail_match = re.search(r"failures?=\s*(\d+)", stdout or "", re.IGNORECASE)
+    if fail_match:
+        failed_count = int(fail_match.group(1))
+
+    return test_count, failed_count
+
+
+def load_coverage_summary(path):
+    if not path.exists():
+        return None, []
+
+    with path.open("r", encoding="utf-8") as f:
+        cov = json.load(f)
+
+    totals = cov.get("totals") or {}
+    total_cov = totals.get("percent_covered") or totals.get("percent")
+    files = []
+    for fname, info in (cov.get("files") or {}).items():
+        files.append(
+            {
+                "file": fname,
+                "percent_covered": info.get("percent_covered") or info.get("percent"),
+                "missing_lines": info.get("missing_lines", []),
+            }
+        )
+    return total_cov, files
+
+
+def read_assets_summary(path):
+    if not path.exists():
+        return {}
+
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            rep = json.load(f)
+    except Exception:
+        return {"error": "could not read assets-report.json"}
+
+    return {
+        "total_assets": rep.get("summary", {}).get("total_assets"),
+        "issues": rep.get("summary", {}).get("issues"),
+        "warnings": rep.get("summary", {}).get("warnings"),
+    }
+
+
 def main():
     start = time.time()
 
@@ -53,15 +105,7 @@ def main():
     duration = time.time() - start
 
     stdout = (test_run.stdout or "") + "\n" + (test_run.stderr or "")
-    test_count = 0
-    failed_count = 0
-    match = re.search(r"Ran\s+(\d+)\s+tests?", stdout, re.IGNORECASE)
-    if match:
-        test_count = int(match.group(1))
-
-    fail_match = re.search(r"failures?=\s*(\d+)", stdout, re.IGNORECASE)
-    if fail_match:
-        failed_count = int(fail_match.group(1))
+    test_count, failed_count = parse_test_summary(stdout)
 
     if test_run.returncode != 0 and failed_count == 0:
         failed_count = max(1, test_count)
@@ -71,38 +115,10 @@ def main():
     run_cmd([sys.executable, "-m", "coverage", "json", "-o", str(COV_JSON)])
 
     # 3) Load coverage.json
-    total_cov = None
-    files = []
-    if COV_JSON.exists():
-        with COV_JSON.open("r", encoding="utf-8") as f:
-            cov = json.load(f)
-        totals = cov.get("totals") or {}
-        percent = totals.get("percent_covered") or totals.get("percent") or None
-        total_cov = percent
-        files_data = cov.get("files") or {}
-        for fname, info in files_data.items():
-            files.append(
-                {
-                    "file": fname,
-                    "percent_covered": info.get("percent_covered")
-                    or info.get("percent"),
-                    "missing_lines": info.get("missing_lines", []),
-                }
-            )
+    total_cov, files = load_coverage_summary(COV_JSON)
 
     # 4) Gather assets-report data if present
-    assets_summary = {}
-    if ASSETS_REPORT.exists():
-        try:
-            with ASSETS_REPORT.open("r", encoding="utf-8") as f:
-                rep = json.load(f)
-            assets_summary = {
-                "total_assets": rep.get("summary", {}).get("total_assets"),
-                "issues": rep.get("summary", {}).get("issues"),
-                "warnings": rep.get("summary", {}).get("warnings"),
-            }
-        except Exception:
-            assets_summary = {"error": "could not read assets-report.json"}
+    assets_summary = read_assets_summary(ASSETS_REPORT)
 
     # 5) Get git commit short
     commit = "<unknown>"

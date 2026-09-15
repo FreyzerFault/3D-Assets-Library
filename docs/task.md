@@ -4,8 +4,8 @@
 
 - Proyecto: Biblioteca estática de assets 3D.
 - Stack: HTML/CSS/JS (frontend), `model-viewer` (visor), Python 3 (scripts), `assets.json` (catálogo), `models/` (GLB).
-- Estado: prototipo funcional, catálogo con ~28 assets. Validación y normalización básicas ya aplicadas.
-- Calidad: pruebas de smoke añadidas; transformación y validación inicial implementadas.
+- Estado: prototipo funcional, catálogo con ~28 assets, validación normalizada, seguimiento de métricas y calidad local automatizada.
+- Calidad: suite de tests estable, cobertura registrada en docs/metrics_log.json, scripts de registro/monitorización añadidos y flujos de validación preparados.
 
 ## Trabajo completado (evidencia)
 
@@ -55,6 +55,23 @@ Ordenado por impacto y coste (alta → baja). Cada ítem incluye criterio de ace
   - Qué: añadir pre-commit para lint/format y un job de coverage en CI con artefacto local.
   - Por qué: evitar regresiones pequeñas, mantener el código legible y documentar el nivel de cobertura real.
   - DoD cumplido: existen `.pre-commit-config.yaml`, `.flake8`, `.coveragerc` y el workflow CI ejecuta lint + coverage + validación del catálogo.
+
+- [COMPLETADO] Registro de métricas y tendencia (Alta)
+
+  - Qué: añadir scripts para registrar cobertura, generar un log histórico y producir una tendencia ASCII legible.
+  - Por qué: monitorizar el progreso del proyecto con historial de tests y cobertura sin quitar sencillez ni complejidad.
+  - DoD cumplido: existen `scripts/record_metrics.py`, `scripts/metrics_trend.py`, `docs/METRICS.md`, `docs/metrics_log.md` y `docs/metrics_log.json`.
+
+- [COMPLETADO] Higiene del repositorio y artefactos locales (Media)
+
+  - Qué: excluir cachés y artefactos generados del versionado y mantener el repositorio limpio.
+  - Por qué: evitar ruido en git y conservar la trazabilidad del proyecto.
+  - DoD cumplido: existe `.gitignore` con exclusiones para cachés Python y cobertura local.
+
+- [COMPLETADO] Tests de regresión para scripts de métricas (Media)
+
+  - Qué: validar analizadores del historial, cobertura y tendencia para evitar roturas del pipeline de métricas.
+  - DoD cumplido: existe `tests/test_metrics_scripts.py` y pasa en la suite del proyecto.
 
 ## Backlog extendido (para fases siguientes)
 

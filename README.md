@@ -57,4 +57,11 @@ Métricas del proyecto: [docs/METRICS.md](docs/METRICS.md)
 
 ## Estado actual
 
-El proyecto está en una fase funcional y simple, orientada a catálogo y visualización. La siguiente evolución natural es añadir validación, metadata más rica y mejor UX de navegación.
+El proyecto está en una fase funcional y simple, orientada a catálogo y visualización, con una capa de calidad y métricas añadida para seguir evolucionando sin perder control. La siguiente evolución natural es consolidar la validación, seguir registrando la cobertura y preparar mejoras de UX o herramientas operativas según el crecimiento del catálogo.
+
+## Mediciones del proyecto
+
+- Registro de métricas: `docs/METRICS.md`
+- Historial legible: `docs/metrics_log.md`
+- Historial estructurado: `docs/metrics_log.json`
+- Tendencia de cobertura: `docs/metrics_trend.txt`

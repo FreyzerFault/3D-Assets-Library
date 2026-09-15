@@ -1,0 +1,14 @@
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Coverage and local artifacts
+.coverage
+.coverage.*
+coverage/
+
+# Editor temp files
+*.swp
+*.tmp
