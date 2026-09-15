@@ -10,7 +10,7 @@ Este documento describe la metodología de testing del proyecto, cómo ejecutar 
 
 ---
 
-- Ejecutar con unittest integrado de Python (no se añade nueva dependencia):
+- Ejecutar con unittest integrado de Python (sin introducir nuevas dependencias de runtime):
   python -m unittest discover -v
 
   Nota: en algunos entornos con rutas especiales/disco con espacios la detección automática puede fallar; como alternativa ejecutar los módulos de tests explícitamente:
@@ -19,7 +19,28 @@ Este documento describe la metodología de testing del proyecto, cómo ejecutar 
 - Ejecutar un único archivo de tests:
   python -m unittest tests.test_generate_assets_data -v
 
+- Ejecutar cobertura local:
+  python -m pip install coverage
+  coverage run -m unittest discover -s tests -v
+  coverage report --show-missing
+
 - Recomendación: ejecutar desde la raíz del repositorio. Las utilidades del proyecto (generate_assets_data.py) ya están pensadas para resolver rutas relativas al script.
+
+## Validaciones locales y pre-commit
+
+---
+
+- Instalar herramientas de calidad localmente:
+  python -m pip install pre-commit black flake8 coverage
+
+- Preparar hooks locales:
+  pre-commit install
+
+- Ejecutar todas las validaciones manualmente:
+  pre-commit run --all-files
+  python -m unittest discover -v
+  coverage run -m unittest discover -s tests -v
+  coverage report --show-missing
 
 ## Estrategia y convenciones
 

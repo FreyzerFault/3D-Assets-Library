@@ -30,6 +30,8 @@ This repository is a lightweight static 3D asset library. The goal is to catalog
   4. Only continue with new tasks after the entire test suite is passing.
 
   This policy ensures regressions are caught early and that agentic changes remain safe and reversible.
+- After completing a task, create a descriptive git commit with a clear summary of the work completed.
+- If the codebase has diverged substantially since the last meaningful commit, create one descriptive commit for the related changes or split the work into multiple commits when the edits are unrelated, keeping each commit focused and understandable.
 - Organize code in clear sections using `#region [DESCRIPTIVE REGION NAME]` blocks when the file grows beyond a small script.
 - Encapsulate logic in small, clear functions and helper scripts instead of keeping everything in one massive script.
 - Use self-explanatory variable and function names; do not rely on comments to compensate for unclear naming.

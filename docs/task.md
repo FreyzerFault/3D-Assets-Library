@@ -35,15 +35,26 @@ Ordenado por impacto y coste (alta → baja). Cada ítem incluye criterio de ace
   - Qué: mejorar mensajes de validación, salida CLI y generar un `assets-report.json` con issues detectados.
   - DoD cumplido: ejecución `python generate_assets_data.py --report` genera `assets-report.json` con listas `errors` y `warnings`.
 
-- [PENDIENTE] UX móvil: paginación / lazy loading (Media)
+- [COMPLETADO] UX móvil: paginación / lazy loading (Media)
 
   - Qué: implementar paginación simple + lazy-loading de visores para reducir consumo en móviles.
-  - DoD: página carga y muestra primero N assets (configurable) y carga el resto al hacer scroll; sin caídas en navegadores móviles razonables.
+  - DoD cumplido: la vista carga un bloque inicial de assets, permite cargar más y retarda la carga del `model-viewer` hasta que entra en pantalla.
 
-- [PENDIENTE] CI de generación y despliegue (Baja)
+- [COMPLETADO] CI de generación y validación (Baja)
 
-  - Qué: añadir workflow de GitHub Actions que ejecute el script y (opcional) despliegue en GitHub Pages bajo control manual.
-  - DoD: action que ejecuta tests y, si se aprueba, puede actualizar `assets.json` en una rama `gh-pages` mediante trigger manual.
+  - Qué: añadir workflow de GitHub Actions que ejecute los tests y valide que el catálogo y el reporte se regeneran correctamente.
+  - DoD cumplido: existe `.github/workflows/ci.yml`, con ejecución automática en push/PR y validación del catálogo y `assets-report.json`.
+
+- [COMPLETADO] Despliegue automático a GitHub Pages (Baja)
+
+  - Qué: preparar un workflow que publique el sitio estático completo en GitHub Pages.
+  - DoD cumplido: existe `.github/workflows/deploy-pages.yml` para despliegue manual o automático desde la rama principal.
+
+- [COMPLETADO] Calidad local y cobertura (Alta)
+
+  - Qué: añadir pre-commit para lint/format y un job de coverage en CI con artefacto local.
+  - Por qué: evitar regresiones pequeñas, mantener el código legible y documentar el nivel de cobertura real.
+  - DoD cumplido: existen `.pre-commit-config.yaml`, `.flake8`, `.coveragerc` y el workflow CI ejecuta lint + coverage + validación del catálogo.
 
 ## Backlog extendido (para fases siguientes)
 

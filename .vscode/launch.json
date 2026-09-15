@@ -2,6 +2,32 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python: generate_assets_data.py",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/generate_assets_data.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true,
+      "args": [
+        "--report"
+      ]
+    },
+    {
+      "name": "Python: unittest discover",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/-m",
+      "args": [
+        "unittest",
+        "discover",
+        "-v"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",

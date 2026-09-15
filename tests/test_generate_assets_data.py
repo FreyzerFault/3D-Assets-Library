@@ -63,8 +63,18 @@ class GenerateAssetsDataTests(unittest.TestCase):
             (models_dir / "b.glb").write_text("b", encoding="utf-8")
 
             assets = [
-                {"name": "  my_asset__model  ", "file": "models/a.glb", "category": "Props", "description": ""},
-                {"name": "My Asset Model", "file": "models/b.glb", "category": "Props", "description": ""},
+                {
+                    "name": "  my_asset__model  ",
+                    "file": "models/a.glb",
+                    "category": "Props",
+                    "description": "",
+                },
+                {
+                    "name": "My Asset Model",
+                    "file": "models/b.glb",
+                    "category": "Props",
+                    "description": "",
+                },
             ]
 
             generator.BASE_DIR = tmp_path
@@ -103,9 +113,24 @@ class GenerateAssetsDataTests(unittest.TestCase):
             (models_dir / "asset1.glb").write_text("asset1", encoding="utf-8")
 
             assets = [
-                {"name": "Asset 1", "file": "models/asset1.glb", "category": "Props", "description": ""},
-                {"name": "Asset 1 Duplicate", "file": "models/asset1.glb", "category": "Props", "description": ""},
-                {"name": "Missing", "file": "models/missing.glb", "category": "Props", "description": ""},
+                {
+                    "name": "Asset 1",
+                    "file": "models/asset1.glb",
+                    "category": "Props",
+                    "description": "",
+                },
+                {
+                    "name": "Asset 1 Duplicate",
+                    "file": "models/asset1.glb",
+                    "category": "Props",
+                    "description": "",
+                },
+                {
+                    "name": "Missing",
+                    "file": "models/missing.glb",
+                    "category": "Props",
+                    "description": "",
+                },
             ]
 
             generator.BASE_DIR = tmp_path

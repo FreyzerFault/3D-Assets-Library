@@ -28,7 +28,9 @@ class GenerateAssetsDataMoreTests(unittest.TestCase):
         self.assertEqual(assets, [])
 
     def test_load_assets_invalid_json_raises(self):
-        (self.tmp_path / "assets.json").write_text("{ not: valid json }", encoding="utf-8")
+        (self.tmp_path / "assets.json").write_text(
+            "{ not: valid json }", encoding="utf-8"
+        )
         with self.assertRaises(json.JSONDecodeError):
             # load_assets will attempt to json.load and raise
             generator.load_assets()
@@ -57,10 +59,14 @@ class GenerateAssetsDataMoreTests(unittest.TestCase):
         (self.models_dir / "a.glb").write_text("a", encoding="utf-8")
         abs_path = str((self.models_dir / "a.glb").resolve())
 
-        assets = [{"name": "Abs", "file": abs_path, "category": "Props", "description": ""}]
+        assets = [
+            {"name": "Abs", "file": abs_path, "category": "Props", "description": ""}
+        ]
         normalized, issues = generator.validate_assets(assets)
         self.assertEqual(len(normalized), 0)
-        self.assertTrue(any("Ruta absoluta" in i or "Ruta absoluta" in i for i in issues))
+        self.assertTrue(
+            any("Ruta absoluta" in i or "Ruta absoluta" in i for i in issues)
+        )
 
     def test_warn_large_files_thresholds(self):
         one_exact = 10 * 1024 * 1024
@@ -82,7 +88,14 @@ class GenerateAssetsDataMoreTests(unittest.TestCase):
         self.assertFalse(any("a.glb" in w for w in warnings))
 
     def test_persist_and_load_roundtrip(self):
-        data = [{"name": "X", "file": "models/x.glb", "category": "Props", "description": ""}]
+        data = [
+            {
+                "name": "X",
+                "file": "models/x.glb",
+                "category": "Props",
+                "description": "",
+            }
+        ]
         generator.persist_assets(data)
         loaded = generator.load_assets()
         self.assertEqual(loaded, data)
@@ -93,7 +106,9 @@ class GenerateAssetsDataMoreTests(unittest.TestCase):
         issues = ["Missing: models/example.glb"]
         warnings = ["[AVISO] models/example.glb supera 10 MB."]
 
-        out = generator.generate_report(assets, issues, warnings, output_path=report_path)
+        out = generator.generate_report(
+            assets, issues, warnings, output_path=report_path
+        )
         self.assertEqual(out, report_path)
         payload = json.loads(report_path.read_text(encoding="utf-8"))
         self.assertEqual(payload["summary"]["total_assets"], 1)

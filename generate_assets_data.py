@@ -10,7 +10,7 @@ MODELS_DIR = BASE_DIR / "models"
 REPORT_FILE = BASE_DIR / "assets-report.json"
 LARGE_FILE_WARNINGS = (10 * 1024 * 1024, 100 * 1024 * 1024)
 
-#region File and metadata utilities
+# region File and metadata utilities
 
 
 def normalize_name(value):
@@ -37,7 +37,9 @@ def get_file_metadata(file_path):
     stat = resolved_path.stat()
     return {
         "size_bytes": stat.st_size,
-        "modified_at": datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(),
+        "modified_at": datetime.fromtimestamp(
+            stat.st_mtime, tz=timezone.utc
+        ).isoformat(),
     }
 
 
@@ -57,9 +59,9 @@ def load_assets(path=None):
     return data
 
 
-#endregion
+# endregion
 
-#region Asset normalization and validation
+# region Asset normalization and validation
 
 
 def normalize_asset(asset, default_category="Props"):
@@ -168,9 +170,9 @@ def collect_new_assets(assets, models_dir=None):
     return assets, new_assets
 
 
-#endregion
+# endregion
 
-#region Reporting and CLI
+# region Reporting and CLI
 
 
 def warn_large_files(assets):
@@ -215,8 +217,14 @@ def generate_report(assets, issues, warnings, output_path=None):
 
 
 def parse_args(argv=None):
-    parser = argparse.ArgumentParser(description="Genera y valida el catálogo de assets 3D.")
-    parser.add_argument("--report", action="store_true", help="Genera un assets-report.json con errores y warnings.")
+    parser = argparse.ArgumentParser(
+        description="Genera y valida el catálogo de assets 3D."
+    )
+    parser.add_argument(
+        "--report",
+        action="store_true",
+        help="Genera un assets-report.json con errores y warnings.",
+    )
     return parser.parse_args(argv)
 
 
@@ -259,9 +267,10 @@ def main(argv=None):
     print(f"\nTotal de assets: {len(assets)}")
 
 
-#endregion
+# endregion
 
 
 if __name__ == "__main__":
     import sys
+
     main(sys.argv[1:])
