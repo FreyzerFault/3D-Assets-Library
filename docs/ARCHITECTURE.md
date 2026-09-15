@@ -20,7 +20,11 @@
 ├── generate_assets_data.py
 ├── run_automation.py
 ├── run_automation.bat
+├── run_autopilot_loop.py
+├── run_autopilot_loop.bat
 ├── models/
+├── scripts/
+│   └── autopilot_webhook_server.py
 ├── docs/
 │   ├── SPECIFICATIONS.md
 │   ├── ARCHITECTURE.md
@@ -61,6 +65,21 @@ Punto único de acceso para la operación del repositorio. El flujo automatizado
 - escribe las métricas del proyecto
 
 Esto reduce la fricción operativa para colaboradores y evita depender de varios comandos separados o de una consola de Python cada vez.
+
+### `run_autopilot_loop.py` y `run_autopilot_loop.bat`
+
+Bucle operativo para repetir la automatización en una secuencia continua. La intención es dejar un proceso local que:
+
+- espera a que termine cada ciclo de `run_automation.py`
+- muestra una notificación de Windows al finalizar la iteración
+- vuelve a preparar el mismo mensaje de prompt para el siguiente turno
+- se detiene cuando el usuario pulsa una tecla o cierra la aplicación
+
+Esto ayuda a mantener un flujo autónomo de revisión, validación y regeneración sin requerir intervención manual en cada vuelta.
+
+### `scripts/autopilot_webhook_server.py`
+
+Servidor de ejemplo para recibir mensajes del bucle de autopilot mediante POST JSON. Es útil cuando se quiere un canal seguro y explícito para reutilizar el mismo prompt con un endpoint propio, sin depender de la copia manual al portapapeles.
 
 ### `models/`
 

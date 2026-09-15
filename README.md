@@ -63,6 +63,26 @@ Para lanzar la validación completa del proyecto con un solo clic en Windows:
 
 Este punto de entrada ejecuta, en orden, la regeneración del catálogo, la suite de tests y el registro de métricas del proyecto.
 
+### Bucle de autopilot infinito
+
+Si quieres dejar un loop operativo que repita la automatización tras cada ciclo, puedes ejecutar:
+
+```bash
+python run_autopilot_loop.py
+```
+
+o hacer doble clic en `run_autopilot_loop.bat`.
+
+El script:
+
+- ejecuta `run_automation.py` en cada iteración
+- espera a que termine la tarea antes de continuar
+- recopila el mismo mensaje de prompt para volver a enviarlo al chat
+- muestra una notificación de Windows al terminar cada iteración
+- repite en bucle hasta que pulses una tecla o cierres la ventana
+
+Si quieres recibir el mensaje por un webhook en lugar de pegarlo manualmente, usa `scripts/autopilot_webhook_server.py` y configura la variable de entorno `AUTOPILOT_WEBHOOK_URL` antes de arrancar el bucle.
+
 ## Requisitos
 
 - Python 3
