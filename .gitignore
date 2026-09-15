@@ -15,3 +15,6 @@ models/2gb-plus/
 # Editor temp files
 *.swp
 *.tmp
+
+# Local environment files
+.env

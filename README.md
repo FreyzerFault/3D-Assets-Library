@@ -81,7 +81,7 @@ El script:
 - muestra una notificación de Windows al terminar cada iteración
 - repite en bucle hasta que pulses una tecla o cierres la ventana
 
-Si quieres recibir el mensaje por un webhook en lugar de pegarlo manualmente, usa `scripts/autopilot_webhook_server.py` y configura la variable de entorno `AUTOPILOT_WEBHOOK_URL` antes de arrancar el bucle.
+Si quieres recibir el mensaje por un webhook en lugar de pegarlo manualmente, usa `scripts/autopilot_webhook_server.py` y configura la variable de entorno `AUTOPILOT_WEBHOOK_URL` antes de arrancar el bucle. Las variables de entorno locales se guardan en `.env` (el archivo se ignora por Git y se puede templar desde `.env.example`).
 
 ## Requisitos
 
