@@ -10,6 +10,7 @@ Usage: python scripts/record_metrics.py
 The script expects 'coverage' to be available in the environment (python -m coverage).
 """
 import json
+import re
 import shlex
 import subprocess
 import sys
@@ -34,8 +35,36 @@ def main():
 
     # 1) Run tests under coverage
     print("Running tests with coverage...")
-    r = run_cmd([sys.executable, "-m", "coverage", "run", "-m", "unittest", "discover", "-v"], capture_output=False)
+    test_run = run_cmd(
+        [
+            sys.executable,
+            "-m",
+            "coverage",
+            "run",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests",
+            "-v",
+        ],
+        capture_output=True,
+    )
     duration = time.time() - start
+
+    stdout = (test_run.stdout or "") + "\n" + (test_run.stderr or "")
+    test_count = 0
+    failed_count = 0
+    match = re.search(r"Ran\s+(\d+)\s+tests?", stdout, re.IGNORECASE)
+    if match:
+        test_count = int(match.group(1))
+
+    fail_match = re.search(r"failures?=\s*(\d+)", stdout, re.IGNORECASE)
+    if fail_match:
+        failed_count = int(fail_match.group(1))
+
+    if test_run.returncode != 0 and failed_count == 0:
+        failed_count = max(1, test_count)
 
     # 2) Generate coverage json
     print("Generating coverage json...")
@@ -52,11 +81,14 @@ def main():
         total_cov = percent
         files_data = cov.get("files") or {}
         for fname, info in files_data.items():
-            files.append({
-                "file": fname,
-                "percent_covered": info.get("percent_covered") or info.get("percent"),
-                "missing_lines": info.get("missing_lines", []),
-            })
+            files.append(
+                {
+                    "file": fname,
+                    "percent_covered": info.get("percent_covered")
+                    or info.get("percent"),
+                    "missing_lines": info.get("missing_lines", []),
+                }
+            )
 
     # 4) Gather assets-report data if present
     assets_summary = {}
@@ -85,7 +117,13 @@ def main():
     now = datetime.now(timezone.utc).isoformat()
 
     # human-readable markdown entry
-    entry_lines = ["---", f"## {now} UTC  — automated metrics", f"- Commit: {commit}", f"- Tests: ran under coverage", f"- Test duration (s): {duration:.2f}"]
+    entry_lines = [
+        "---",
+        f"## {now} UTC  — automated metrics",
+        f"- Commit: {commit}",
+        f"- Tests: {test_count} total, {failed_count} failed",
+        f"- Test duration (s): {duration:.2f}",
+    ]
 
     if total_cov is not None:
         entry_lines.append(f"- Coverage total: {total_cov}%")
@@ -93,7 +131,6 @@ def main():
         entry_lines.append("- Coverage total: (not available)")
 
     if files:
-        # include top 8 files sorted by percent covered ascending (low coverage first)
         entry_lines.append("- Coverage highlights:")
         for info in sorted(files, key=lambda i: (i.get("percent_covered") or 0))[:8]:
             entry_lines.append(f"  - {info['file']}: {info.get('percent_covered')}%")
@@ -109,6 +146,8 @@ def main():
     json_entry = {
         "timestamp": now,
         "commit": commit,
+        "test_count": test_count,
+        "failed_tests": failed_count,
         "test_duration_seconds": round(duration, 2),
         "coverage_total": total_cov,
         "coverage_files": files[:50],
@@ -118,12 +157,10 @@ def main():
     # 7) Append to human-readable log and JSON log
     LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-    # append markdown
     with LOG_PATH.open("a", encoding="utf-8") as f:
         f.write("\n".join(entry_lines))
         f.write("\n")
 
-    # append JSON entry to metrics_log.json (array)
     json_log_path = LOG_PATH.parent / "metrics_log.json"
     if json_log_path.exists():
         try:

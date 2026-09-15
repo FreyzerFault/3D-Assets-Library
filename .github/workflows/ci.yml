@@ -1,5 +1,8 @@
 name: CI
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -87,6 +90,26 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install coverage
           python scripts/record_metrics.py
+
+      - name: Commit metrics back to repo
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        env:
+          METRICS_PAT: ${{ secrets.METRICS_PAT }}
+        run: |
+          if [ -n "$METRICS_PAT" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git remote set-url origin "https://x-access-token:${METRICS_PAT}@github.com/${GITHUB_REPOSITORY}.git"
+            git add docs/metrics_log.md docs/metrics_log.json coverage.json
+            if ! git diff --cached --quiet; then
+              git commit -m "chore(metrics): refresh project metrics"
+              git push origin HEAD:${GITHUB_REF_NAME}
+            else
+              echo "No metrics changes to commit."
+            fi
+          else
+            echo "METRICS_PAT not configured; skipping automatic metrics commit."
+          fi
 
       - name: Upload metrics artifacts
         uses: actions/upload-artifact@v4

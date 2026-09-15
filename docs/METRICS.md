@@ -1,26 +1,27 @@
 # METRICS.md
 
-Propósito
---------
+## Propósito
+
 Este documento define las métricas que se recogen para el proyecto, explica dónde se almacenan y qué eventos disparan una medición. Sirve de referencia para agentes y colaboradores humanos: qué medir, por qué y cómo interpretar los valores.
 
-Dónde se almacenan las métricas
-------------------------------
-- Log legible histórico: docs/metrics_log.md — se añade una entrada cada vez que se ejecuta la medición (normalmente tras una actualización de tests o al completar un hito relevante).
-- Artefactos intermedios: coverage.json (generado temporalmente por el script), assets-report.json (generado por generate_assets_data.py) — el script de registro extrae valores de estos artefactos.
+## Dónde se almacenan las métricas
 
-Eventos que disparan una medición
----------------------------------
+- Log legible histórico: docs/metrics_log.md — se añade una entrada cada vez que se ejecuta la medición (normalmente tras una actualización de tests o al completar un hito relevante).
+- Log estructurado: docs/metrics_log.json — versión JSON con el mismo historial para análisis automático y dashboards.
+- Artefactos intermedios: coverage.json (generado temporalmente por el script), assets-report.json (generado por generate_assets_data.py), docs/metrics_trend.txt (resumen visual generado por scripts/metrics_trend.py) — el script de registro extrae valores de estos artefactos.
+
+## Eventos que disparan una medición
+
 - Cuando se actualizan tests (nuevos tests añadidos, tests modificados o reorganizados).
 - Tras completar un hito mayor ("hito" = cambios que afectan funcionalidad o arquitectura; e.g., migración, reescritura de módulo, gran refactor).
 - En la CI: tras ejecución de la suite en la rama principal o en PRs relevantes (opcionalmente como paso de validación).
 
-Formato del registro
----------------------
+## Formato del registro
+
 Cada entrada en docs/metrics_log.md es un bloque legible con: fecha, commit, resumen de resultados (tests pasados/fallidos), cobertura total, cobertura por fichero (resumen), número de tests, duración aproximada, y métricas del catálogo (issues/warnings desde assets-report.json). El script scripts/record_metrics.py genera y añade la entrada.
 
-Métricas importantes (DoD: siempre recolectar)
-----------------------------------------------
+## Métricas importantes (DoD: siempre recolectar)
+
 - Fecha y hora de la medición
 - Commit (SHA corto) y branch
 - Resultado de la suite de tests (passed/failed)
@@ -33,12 +34,12 @@ Métricas importantes (DoD: siempre recolectar)
 - Número total de assets y tamaño total agregado (bytes)
 - Conteo de assets grandes (por umbrales configurados) y lista corta
 - Estado de lint/pre-commit (passed/failed)
+- Churn de código desde último commit (líneas añadidas/eliminadas)
 
-Métricas sugeridas (opcional)
-------------------------------
+## Métricas sugeridas (opcional)
+
 - Tiempo medio de ejecución por test
 - Tasa de cambio de cobertura desde la última medición (delta %)
-- Churn de código desde último commit (líneas añadidas/eliminadas)
 - Número de archivos modificados en el commit
 - Size of artifacts (assets.json size, assets-report.json size)
 - Métricas de rendimiento del frontend (FCP, LCP) si se incorporan pruebas de navegador
@@ -46,8 +47,8 @@ Métricas sugeridas (opcional)
 - Complejidad ciclomática por fichero (si se integra herramienta)
 - Mutation score (si se adopta mutation testing)
 
-Explicaciones breves de cada métrica
-------------------------------------
+## Explicaciones breves de cada métrica
+
 - Fecha y hora: histórico; permite ordenar y correlacionar con commits/PRs.
 - Commit SHA: precisa vinculación a código fuente.
 - Resultado tests: indicador básico de salud; si falla, no se debe avanzar en otras tareas.
@@ -62,8 +63,8 @@ Explicaciones breves de cada métrica
 - Lint status: asegura calidad de estilo y evita ruido de formato.
 - Churn y files changed: identificar cambios grandes que requieren revisiones más cuidadosas.
 
-Buenas prácticas y recomendaciones
----------------------------------
+## Buenas prácticas y recomendaciones
+
 - Automatizar la generación y el registro: scripts/record_metrics.py debe usarse desde CI y localmente cuando se toquen tests.
 - Mantener el log legible y compacto: preferir resúmenes y enlazar artefactos más detallados (coverage.json) en lugar de volcar grandes tablas.
 - Correlacionar métricas con PR/issue/hitos para trazabilidad.

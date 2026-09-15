@@ -1,6 +1,10 @@
 ﻿# 3D Assets Library
 
+![Coverage](https://img.shields.io/badge/coverage-82%25-brightgreen)
+
 Biblioteca estática de assets 3D para visualizar, revisar y descargar modelos `.glb` desde una web ligera sin backend.
+
+Métricas del proyecto: [docs/METRICS.md](docs/METRICS.md)
 
 ## Qué hace el proyecto
 
