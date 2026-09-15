@@ -160,5 +160,11 @@
     "file": "models/Wario Head.glb",
     "category": "Props",
     "description": ""
+  },
+  {
+    "name": "Rayan Gosling Low Poly Face",
+    "file": "models/rayan_gosling_low_poly_face.glb",
+    "category": "Props",
+    "description": ""
   }
 ]

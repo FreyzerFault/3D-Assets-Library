@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
 
-ASSETS_FILE = Path("assets.json")
-MODELS_DIR = Path("models")
+BASE_DIR = Path(__file__).resolve().parent
+ASSETS_FILE = BASE_DIR / "assets.json"
+MODELS_DIR = BASE_DIR / "models"
 
 
 def format_name(filename):
@@ -47,10 +48,10 @@ with open(ASSETS_FILE, "w", encoding="utf-8") as f:
 
 # Resultado
 if new_assets:
-    print(f"✓ Añadidos {len(new_assets)} modelos:")
+    print(f"[OK] Añadidos {len(new_assets)} modelos:")
     for model in new_assets:
         print(f"  - {model}")
 else:
-    print("✓ No hay modelos nuevos.")
+    print("[OK] No hay modelos nuevos.")
 
 print(f"\nTotal de assets: {len(assets)}")
