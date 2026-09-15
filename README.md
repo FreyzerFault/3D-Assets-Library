@@ -21,11 +21,12 @@ Biblioteca estática de assets 3D para visualizar, revisar y descargar modelos `
 ├── generate_assets_data.py
 ├── models/
 ├── tests/
-├── dbv-specs-ops/
-│   └── docs/
-│       ├── SPECIFICATIONS.md
-│       ├── ARCHITECTURE.md
-│       └── task.md
+├── docs/
+│   ├── SPECIFICATIONS.md
+│   ├── ARCHITECTURE.md
+│   └── task.md
+├── .github/
+├── AGENTS.md
 └── .gitignore
 ```
 
@@ -48,7 +49,7 @@ Biblioteca estática de assets 3D para visualizar, revisar y descargar modelos `
 
 - El proyecto está pensado para despliegue estático.
 - La ruta del catálogo y los modelos se resuelven respecto al propio script, no al directorio de trabajo.
-- El documento de especificación y arquitectura está en `dbv-specs-ops/docs/`.
+- La documentación técnica está en `docs/`.
 
 ## Estado actual
 

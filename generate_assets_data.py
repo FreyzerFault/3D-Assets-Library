@@ -1,20 +1,44 @@
+import argparse
 import json
+import re
+from datetime import datetime, timezone
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 ASSETS_FILE = BASE_DIR / "assets.json"
 MODELS_DIR = BASE_DIR / "models"
+REPORT_FILE = BASE_DIR / "assets-report.json"
+LARGE_FILE_WARNINGS = (10 * 1024 * 1024, 100 * 1024 * 1024)
+
+#region File and metadata utilities
+
+
+def normalize_name(value):
+    name = str(value or "").strip()
+    name = name.replace("_", " ").replace("-", " ")
+    name = re.sub(r"\s+", " ", name)
+    return name.title() if name else ""
 
 
 def format_name(filename):
     name = Path(filename).stem
-    name = name.replace("_", " ").replace("-", " ")
-    name = " ".join(name.split())
-    return name.title()
+    return normalize_name(name)
 
 
 def normalize_file_path(file_path):
     return str(file_path).replace("\\", "/").strip()
+
+
+def get_file_metadata(file_path):
+    resolved_path = (BASE_DIR / file_path).resolve()
+    if not resolved_path.exists():
+        return {"size_bytes": None, "modified_at": None}
+
+    stat = resolved_path.stat()
+    return {
+        "size_bytes": stat.st_size,
+        "modified_at": datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat(),
+    }
 
 
 def load_assets(path=None):
@@ -33,28 +57,43 @@ def load_assets(path=None):
     return data
 
 
+#endregion
+
+#region Asset normalization and validation
+
+
 def normalize_asset(asset, default_category="Props"):
     if not isinstance(asset, dict):
         return None
-
-    name = str(asset.get("name", "") or "").strip()
-    if not name:
-        file_path = asset.get("file")
-        name = format_name(file_path) if file_path else "Asset"
-
-    category = str(asset.get("category") or default_category).strip() or default_category
-    description = str(asset.get("description") or "").strip()
 
     file_path = normalize_file_path(asset.get("file", ""))
     if not file_path:
         return None
 
-    return {
+    name = normalize_name(asset.get("name"))
+    if not name:
+        name = format_name(file_path)
+
+    category = normalize_name(asset.get("category") or default_category)
+    if not category:
+        category = default_category
+
+    description = str(asset.get("description") or "").strip()
+
+    normalized = {
         "name": name,
         "file": file_path,
         "category": category,
         "description": description,
     }
+
+    metadata = get_file_metadata(file_path)
+    if metadata["size_bytes"] is not None:
+        normalized["size_bytes"] = metadata["size_bytes"]
+    if metadata["modified_at"] is not None:
+        normalized["modified_at"] = metadata["modified_at"]
+
+    return normalized
 
 
 def validate_assets(assets, models_dir=None):
@@ -63,6 +102,7 @@ def validate_assets(assets, models_dir=None):
 
     issues = []
     seen_files = set()
+    seen_names = set()
     normalized_assets = []
 
     for index, asset in enumerate(assets):
@@ -75,7 +115,12 @@ def validate_assets(assets, models_dir=None):
             issues.append(f"Archivo duplicado: {normalized['file']}")
             continue
 
+        if normalized["name"] in seen_names:
+            issues.append(f"Nombre duplicado: {normalized['name']}")
+            continue
+
         seen_files.add(normalized["file"])
+        seen_names.add(normalized["name"])
 
         if Path(normalized["file"]).is_absolute() or normalized["file"].startswith("/"):
             issues.append(f"Ruta absoluta no permitida: {normalized['file']}")
@@ -105,6 +150,7 @@ def collect_new_assets(assets, models_dir=None):
         if normalized_path in registered_files:
             continue
 
+        metadata = get_file_metadata(normalized_path)
         asset = {
             "name": format_name(model.name),
             "file": normalized_path,
@@ -112,13 +158,75 @@ def collect_new_assets(assets, models_dir=None):
             "description": "",
         }
 
+        for key, value in metadata.items():
+            if value is not None:
+                asset[key] = value
+
         assets.append(asset)
         new_assets.append(model.name)
 
     return assets, new_assets
 
 
-def main():
+#endregion
+
+#region Reporting and CLI
+
+
+def warn_large_files(assets):
+    warnings = []
+
+    for asset in assets:
+        size_bytes = asset.get("size_bytes")
+        if not isinstance(size_bytes, int):
+            continue
+
+        if size_bytes > LARGE_FILE_WARNINGS[1]:
+            warnings.append(
+                f"[ALERTA] {asset['file']} supera 100 MB ({size_bytes / (1024 * 1024):.1f} MB)."
+            )
+        elif size_bytes > LARGE_FILE_WARNINGS[0]:
+            warnings.append(
+                f"[AVISO] {asset['file']} supera 10 MB ({size_bytes / (1024 * 1024):.1f} MB)."
+            )
+
+    return warnings
+
+
+def generate_report(assets, issues, warnings, output_path=None):
+    if output_path is None:
+        output_path = REPORT_FILE
+
+    payload = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "summary": {
+            "total_assets": len(assets),
+            "issues": len(issues),
+            "warnings": len(warnings),
+        },
+        "errors": issues,
+        "warnings": warnings,
+    }
+
+    with output_path.open("w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+
+    return output_path
+
+
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(description="Genera y valida el catálogo de assets 3D.")
+    parser.add_argument("--report", action="store_true", help="Genera un assets-report.json con errores y warnings.")
+    return parser.parse_args(argv)
+
+
+def persist_assets(assets):
+    with ASSETS_FILE.open("w", encoding="utf-8") as f:
+        json.dump(assets, f, ensure_ascii=False, indent=2)
+
+
+def main(argv=None):
+    args = parse_args([] if argv is None else argv)
     assets = load_assets()
     assets, issues = validate_assets(assets)
 
@@ -128,19 +236,32 @@ def main():
             print(f"  - {issue}")
 
     assets, new_assets = collect_new_assets(assets)
+    warnings = warn_large_files(assets)
 
-    with ASSETS_FILE.open("w", encoding="utf-8") as f:
-        json.dump(assets, f, ensure_ascii=False, indent=2)
+    if warnings:
+        print("\n[WARN] Archivos grandes detectados:")
+        for warning in warnings:
+            print(f"  - {warning}")
+
+    persist_assets(assets)
+
+    if args.report:
+        report_path = generate_report(assets, issues, warnings)
+        print(f"\n[OK] Reporte generado: {report_path.name}")
 
     if new_assets:
-        print(f"[OK] Agregados {len(new_assets)} modelos:")
+        print(f"\n[OK] Agregados {len(new_assets)} modelos:")
         for model in new_assets:
             print(f"  - {model}")
     else:
-        print("[OK] No hay modelos nuevos.")
+        print("\n[OK] No hay modelos nuevos.")
 
     print(f"\nTotal de assets: {len(assets)}")
 
 
+#endregion
+
+
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1:])

@@ -23,6 +23,8 @@ El sistema actual prioriza simplicidad, portabilidad y facilidad de gestión sob
 - El sistema debe crear una entrada de catálogo para cada modelo nuevo.
 - El sistema debe evitar duplicados y rutas no válidas.
 - El catálogo debe conservar `name`, `file`, `category` y `description`.
+- El catálogo debe almacenar metadatos operativos útiles: `size_bytes` y `modified_at`.
+- El sistema debe advertir cuando un archivo supera los umbrales de tamaño de 10 MB y 100 MB.
 
 ### 3.2 Visualización en web
 
@@ -52,17 +54,26 @@ El catálogo actual usa esta estructura mínima:
   "name": "Nombre del modelo",
   "file": "models/archivo.glb",
   "category": "Props",
-  "description": "Texto descriptivo"
+  "description": "Texto descriptivo",
+  "size_bytes": 123456,
+  "modified_at": "2026-09-15T20:00:00+00:00"
 }
 ```
 
 Reglas actuales:
-
 - `file` debe ser una ruta relativa al proyecto.
 - `category` debe ser una etiqueta simple, normalmente `Props`.
 - `description` es opcional.
+- `size_bytes` y `modified_at` se rellenan automáticamente cuando se ejecuta el script de mantenimiento.
 
-## 6. Objetivos aspiracionales
+## 6. Reglas de nomenclatura y normalización
+
+- Se deben eliminar espacios redundantes, rutas absolutas y caracteres innecesarios.
+- Los nombres visibles deben normalizarse en formato título: `My Asset Model`.
+- Los nombres se deducen del nombre del archivo cuando el campo `name` está vacío.
+- Los assets con el mismo nombre normalizado se consideran conflicto y deben revisarse.
+
+## 7. Objetivos aspiracionales
 
 Estos objetivos no forman parte del estado actual, pero sí de la dirección deseada del proyecto:
 
@@ -73,7 +84,7 @@ Estos objetivos no forman parte del estado actual, pero sí de la dirección des
 - soportar proyectos asociados de Blender u otros programas
 - preparar una capa de administración con visibilidad pública/privada
 
-## 7. Riesgos y limitaciones
+## 8. Riesgos y limitaciones
 
 - El crecimiento del catálogo puede volver la gestión del JSON más frágil.
 - El peso de los modelos puede afectar a rendimiento y almacenamiento.
@@ -81,7 +92,7 @@ Estos objetivos no forman parte del estado actual, pero sí de la dirección des
 - La web estática puede limitar el rendimiento con muchos visores activos simultáneamente.
 - Si se quiere escalar sin una base de datos, la metadata puede terminar dispersa y difícil de mantener.
 
-## 8. Criterios de aceptación para cambios
+## 9. Criterios de aceptación para cambios
 
 Un cambio será aceptado si:
 
@@ -91,7 +102,7 @@ Un cambio será aceptado si:
 - no rompe la carga de la web ni la estructura del proyecto,
 - queda documentado en el código o en la documentación relevante.
 
-## 9. Roadmap simplificado
+## 10. Roadmap simplificado
 
 ### Fase 1: estabilidad
 
@@ -113,6 +124,6 @@ Un cambio será aceptado si:
 
 - modelo de visibilidad, favoritos y gestión de proyecto asociado
 
-## 10. Conclusión
+## 11. Conclusión
 
 La especificación actual del proyecto debe mantener una línea clara: prioridad a una solución simple, robusta y fácil de mantener, con margen para crecer hacia un catálogo más rico sin romper la base actual.

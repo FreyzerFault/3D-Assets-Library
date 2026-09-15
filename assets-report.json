@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-09-15T21:15:02.732124+00:00",
+  "summary": {
+    "total_assets": 28,
+    "issues": 0,
+    "warnings": 6
+  },
+  "errors": [],
+  "warnings": [
+    "[AVISO] models/Brazo_Ejercicio.glb supera 10 MB (48.9 MB).",
+    "[AVISO] models/Ejercicio_Espada_Esmeralda.glb supera 10 MB (36.0 MB).",
+    "[AVISO] models/Ejercicio_Hacha.glb supera 10 MB (10.7 MB).",
+    "[AVISO] models/Ejercicio_Mascara_Muerte.glb supera 10 MB (11.9 MB).",
+    "[AVISO] models/Superheroe HPoly.glb supera 10 MB (49.8 MB).",
+    "[AVISO] models/Wario Head.glb supera 10 MB (13.5 MB)."
+  ]
+}
