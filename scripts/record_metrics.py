@@ -83,6 +83,8 @@ def main():
 
     # 6) Compose entry
     now = datetime.now(timezone.utc).isoformat()
+
+    # human-readable markdown entry
     entry_lines = ["---", f"## {now} UTC  — automated metrics", f"- Commit: {commit}", f"- Tests: ran under coverage", f"- Test duration (s): {duration:.2f}"]
 
     if total_cov is not None:
@@ -103,13 +105,42 @@ def main():
 
     entry_lines.append("\n")
 
-    # 7) Append to log
+    # structured JSON entry
+    json_entry = {
+        "timestamp": now,
+        "commit": commit,
+        "test_duration_seconds": round(duration, 2),
+        "coverage_total": total_cov,
+        "coverage_files": files[:50],
+        "assets_summary": assets_summary,
+    }
+
+    # 7) Append to human-readable log and JSON log
     LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    # append markdown
     with LOG_PATH.open("a", encoding="utf-8") as f:
         f.write("\n".join(entry_lines))
         f.write("\n")
 
-    print(f"Metrics appended to {LOG_PATH}")
+    # append JSON entry to metrics_log.json (array)
+    json_log_path = LOG_PATH.parent / "metrics_log.json"
+    if json_log_path.exists():
+        try:
+            with json_log_path.open("r", encoding="utf-8") as jf:
+                arr = json.load(jf)
+                if not isinstance(arr, list):
+                    arr = []
+        except Exception:
+            arr = []
+    else:
+        arr = []
+
+    arr.append(json_entry)
+    with json_log_path.open("w", encoding="utf-8") as jf:
+        json.dump(arr, jf, ensure_ascii=False, indent=2)
+
+    print(f"Metrics appended to {LOG_PATH} and {json_log_path}")
 
 
 if __name__ == "__main__":
