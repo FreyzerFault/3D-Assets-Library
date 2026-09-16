@@ -150,6 +150,21 @@
         letter-spacing: 0.04em;
       }
 
+      .asset-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 12px;
+      }
+
+      .asset-tag {
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: #232323;
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+
       .asset-description {
         margin: 0;
         color: var(--muted);
@@ -399,8 +414,23 @@
           <h2 class="asset-name">${asset.name}</h2>
           <span class="asset-category">${asset.category}</span>
           <p class="asset-description">${asset.description || 'Sin descripción.'}</p>
+          <div class="asset-tags"></div>
           <a class="download-button" href="${asset.file}" download>Descargar GLB</a>
         `
+
+        const tagList = info.querySelector('.asset-tags')
+        const tags = Array.isArray(asset.tags) ? asset.tags : []
+
+        tags.forEach((tag) => {
+          const chip = document.createElement('span')
+          chip.className = 'asset-tag'
+          chip.textContent = tag
+          tagList.appendChild(chip)
+        })
+
+        if (tags.length === 0) {
+          tagList.remove()
+        }
 
         card.appendChild(viewerContainer)
         card.appendChild(info)

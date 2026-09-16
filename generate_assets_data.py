@@ -66,6 +66,25 @@ def load_assets(path=None):
 # region Asset normalization and validation
 
 
+def normalize_tags(value):
+    if isinstance(value, str):
+        value = [value]
+
+    if not isinstance(value, list):
+        return []
+
+    tags = []
+    for tag in value:
+        if not isinstance(tag, str):
+            continue
+
+        normalized = re.sub(r"\s+", " ", tag.strip().lower())
+        if normalized and normalized not in tags:
+            tags.append(normalized)
+
+    return tags
+
+
 def normalize_asset(asset, default_category="Props"):
     if not isinstance(asset, dict):
         return None
@@ -90,6 +109,10 @@ def normalize_asset(asset, default_category="Props"):
         "category": category,
         "description": description,
     }
+
+    tags = normalize_tags(asset.get("tags"))
+    if tags:
+        normalized["tags"] = tags
 
     metadata = get_file_metadata(file_path)
     if metadata["size_bytes"] is not None:

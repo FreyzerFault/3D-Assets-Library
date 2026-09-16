@@ -4,14 +4,21 @@
     "file": "models/Laptop.glb",
     "category": "Props",
     "description": "Portátil de la Junta de Andalucía",
+    "tags": [
+      "electrónica"
+    ],
     "size_bytes": 1167532,
     "modified_at": "2026-08-31T17:58:18.393839+00:00"
   },
   {
     "name": "Bowblade",
     "file": "models/bowblade.glb",
-    "category": "Props",
+    "category": "Armas",
     "description": "Hoja Arco de Simon - Bloodborne",
+    "tags": [
+      "bloodborne",
+      "fantasía"
+    ],
     "size_bytes": 255672,
     "modified_at": "2026-08-27T15:45:45.975701+00:00"
   },
@@ -20,13 +27,16 @@
     "file": "models/aceituna.glb",
     "category": "Props",
     "description": "",
+    "tags": [
+      "comida"
+    ],
     "size_bytes": 728048,
     "modified_at": "2026-08-31T17:58:18.274485+00:00"
   },
   {
     "name": "Blitz",
     "file": "models/Blitz.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
     "size_bytes": 1752972,
     "modified_at": "2026-08-31T17:58:18.276486+00:00"
@@ -34,56 +44,80 @@
   {
     "name": "Brazo Ejercicio",
     "file": "models/Brazo_Ejercicio.glb",
-    "category": "Props",
+    "category": "Anatomía",
     "description": "",
+    "tags": [
+      "ejercicio"
+    ],
     "size_bytes": 51302956,
     "modified_at": "2026-08-31T17:58:18.330817+00:00"
   },
   {
     "name": "Cabeza Ejercicio",
     "file": "models/Cabeza_Ejercicio.glb",
-    "category": "Props",
+    "category": "Anatomía",
     "description": "",
+    "tags": [
+      "ejercicio"
+    ],
     "size_bytes": 18516,
     "modified_at": "2026-08-31T17:58:18.333003+00:00"
   },
   {
     "name": "Cabeza Referencia",
     "file": "models/Cabeza_Referencia.glb",
-    "category": "Props",
+    "category": "Anatomía",
     "description": "",
+    "tags": [
+      "referencia"
+    ],
     "size_bytes": 140676,
     "modified_at": "2026-08-31T17:58:18.334002+00:00"
   },
   {
     "name": "Ejercicio 1 Tanque",
     "file": "models/Ejercicio 1 - Tanque.glb",
-    "category": "Props",
+    "category": "Vehículos",
     "description": "",
+    "tags": [
+      "ejercicio"
+    ],
     "size_bytes": 30812,
     "modified_at": "2026-08-31T17:58:18.334002+00:00"
   },
   {
     "name": "Ejercicio Casco Vikingo",
     "file": "models/Ejercicio_Casco_Vikingo.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
+    "tags": [
+      "ejercicio",
+      "vikingo"
+    ],
     "size_bytes": 48672,
     "modified_at": "2026-08-31T17:58:18.335003+00:00"
   },
   {
     "name": "Ejercicio Espada Esmeralda",
     "file": "models/Ejercicio_Espada_Esmeralda.glb",
-    "category": "Props",
+    "category": "Armas",
     "description": "",
+    "tags": [
+      "ejercicio",
+      "espada"
+    ],
     "size_bytes": 37723096,
     "modified_at": "2026-08-31T17:58:18.371630+00:00"
   },
   {
     "name": "Ejercicio Hacha",
     "file": "models/Ejercicio_Hacha.glb",
-    "category": "Props",
+    "category": "Armas",
     "description": "",
+    "tags": [
+      "ejercicio",
+      "hacha"
+    ],
     "size_bytes": 11168216,
     "modified_at": "2026-08-31T17:58:18.382592+00:00"
   },
@@ -92,29 +126,39 @@
     "file": "models/Ejercicio_Mascara_Muerte.glb",
     "category": "Props",
     "description": "",
+    "tags": [
+      "ejercicio",
+      "máscara"
+    ],
     "size_bytes": 12504212,
     "modified_at": "2026-08-31T17:58:18.392594+00:00"
   },
   {
     "name": "Male Body 2",
     "file": "models/Male body 2 .glb",
-    "category": "Props",
+    "category": "Anatomía",
     "description": "",
+    "tags": [
+      "cuerpo"
+    ],
     "size_bytes": 2605356,
     "modified_at": "2026-08-31T17:58:18.395850+00:00"
   },
   {
     "name": "Pie Ejercicio",
     "file": "models/Pie_Ejercicio.glb",
-    "category": "Props",
+    "category": "Anatomía",
     "description": "",
+    "tags": [
+      "ejercicio"
+    ],
     "size_bytes": 86516,
     "modified_at": "2026-08-31T17:58:18.396856+00:00"
   },
   {
     "name": "Puerta",
     "file": "models/puerta.glb",
-    "category": "Props",
+    "category": "Arquitectura",
     "description": "",
     "size_bytes": 12952,
     "modified_at": "2026-08-31T17:58:18.396856+00:00"
@@ -122,104 +166,150 @@
   {
     "name": "Robot Claw",
     "file": "models/Robot_Claw.glb",
-    "category": "Props",
+    "category": "Robótica",
     "description": "",
+    "tags": [
+      "garra"
+    ],
     "size_bytes": 69632,
     "modified_at": "2026-08-31T17:58:18.397862+00:00"
   },
   {
     "name": "Shield",
     "file": "models/Shield.glb",
-    "category": "Props",
+    "category": "Armas",
     "description": "",
+    "tags": [
+      "escudo"
+    ],
     "size_bytes": 122336,
     "modified_at": "2026-08-31T17:58:18.397862+00:00"
   },
   {
     "name": "Shield Damaged",
     "file": "models/Shield_Damaged.glb",
-    "category": "Props",
+    "category": "Armas",
     "description": "",
+    "tags": [
+      "escudo",
+      "dañado"
+    ],
     "size_bytes": 1119200,
     "modified_at": "2026-08-31T17:58:18.398866+00:00"
   },
   {
     "name": "Snivy",
     "file": "models/Snivy.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
+    "tags": [
+      "pokémon"
+    ],
     "size_bytes": 709572,
     "modified_at": "2026-08-31T17:58:18.401083+00:00"
   },
   {
     "name": "Sonic+ 4.1 Update3",
     "file": "models/Sonic+ 4.1 Update3.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
+    "tags": [
+      "sonic"
+    ],
     "size_bytes": 296088,
     "modified_at": "2026-08-31T17:58:18.401083+00:00"
   },
   {
     "name": "Spinosaurus",
     "file": "models/spinosaurus.glb",
-    "category": "Props",
+    "category": "Criaturas",
     "description": "",
+    "tags": [
+      "dinosaurio"
+    ],
     "size_bytes": 2980628,
     "modified_at": "2026-08-31T17:58:18.404083+00:00"
   },
   {
     "name": "Steve Armature",
     "file": "models/Steve - Armature.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
+    "tags": [
+      "minecraft",
+      "rig"
+    ],
     "size_bytes": 1500868,
     "modified_at": "2026-08-31T17:58:18.406500+00:00"
   },
   {
     "name": "Steve",
     "file": "models/Steve.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
+    "tags": [
+      "minecraft"
+    ],
     "size_bytes": 1467992,
     "modified_at": "2026-08-31T17:58:18.408500+00:00"
   },
   {
     "name": "Super Mario 64 Castle",
     "file": "models/Super Mario 64 Castle.glb",
-    "category": "Props",
+    "category": "Arquitectura",
     "description": "",
+    "tags": [
+      "mario",
+      "escenario"
+    ],
     "size_bytes": 371272,
     "modified_at": "2026-08-31T17:58:18.409501+00:00"
   },
   {
     "name": "Superheroe Hpoly",
     "file": "models/Superheroe HPoly.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
+    "tags": [
+      "héroe",
+      "high-poly"
+    ],
     "size_bytes": 52192668,
     "modified_at": "2026-08-31T17:58:18.463890+00:00"
   },
   {
     "name": "Superheroe Lpoly",
     "file": "models/Superheroe LPoly.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
+    "tags": [
+      "héroe",
+      "low-poly"
+    ],
     "size_bytes": 4924436,
     "modified_at": "2026-08-31T17:58:18.470947+00:00"
   },
   {
     "name": "Wario Head",
     "file": "models/Wario Head.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
+    "tags": [
+      "wario",
+      "cabeza"
+    ],
     "size_bytes": 14104556,
     "modified_at": "2026-08-31T17:58:18.481949+00:00"
   },
   {
     "name": "Rayan Gosling Low Poly Face",
     "file": "models/rayan_gosling_low_poly_face.glb",
-    "category": "Props",
+    "category": "Personajes",
     "description": "",
+    "tags": [
+      "low-poly",
+      "cabeza"
+    ],
     "size_bytes": 113804,
     "modified_at": "2026-09-15T18:33:38.496898+00:00"
   }

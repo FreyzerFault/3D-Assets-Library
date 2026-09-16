@@ -162,6 +162,38 @@ class GenerateAssetsDataMoreTests(unittest.TestCase):
         assets = [{"file": "models/unknown.glb"}, {"file": "", "size_bytes": 5}]
         self.assertEqual(generator.check_size_policy(assets), [])
 
+    def test_normalize_asset_keeps_normalized_tags(self):
+        asset = {
+            "name": "Espada",
+            "file": "models/espada.glb",
+            "category": "Armas",
+            "description": "Prueba",
+            "tags": ["  Low-Poly ", "ARMAS", "low-poly", "", 42, None],
+        }
+        normalized = generator.normalize_asset(asset)
+        self.assertEqual(normalized["tags"], ["low-poly", "armas"])
+
+    def test_normalize_asset_omits_empty_tags(self):
+        asset = {
+            "name": "X",
+            "file": "models/x.glb",
+            "category": "Props",
+            "description": "",
+        }
+        normalized = generator.normalize_asset(asset)
+        self.assertNotIn("tags", normalized)
+
+    def test_normalize_asset_ignores_non_list_tags(self):
+        asset = {
+            "name": "X",
+            "file": "models/x.glb",
+            "category": "Props",
+            "description": "",
+            "tags": {"bad": True},
+        }
+        normalized = generator.normalize_asset(asset)
+        self.assertNotIn("tags", normalized)
+
     def test_main_includes_policy_issues_in_report(self):
         big_size = generator.LARGE_FILE_LIMIT + 1
         (self.models_dir / "big.glb").write_text("big", encoding="utf-8")
