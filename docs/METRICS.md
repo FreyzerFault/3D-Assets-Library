@@ -15,6 +15,15 @@ Medidas aplicadas:
 - mantener la métrica de cobertura en un único punto de generación (`python scripts/record_metrics.py`) y usar esa salida como referencia para badge y registro,
 - revisar el historial de métricas cuando se complete un hito para detectar regresiones de calidad o del flujo de automatización.
 
+## Métrica de cobertura de referencia
+
+La cobertura del proyecto se mide en dos niveles distintos y conviene no mezclarlos:
+
+- Cobertura del núcleo del generador (`generate_assets_data.py`): es el indicador de referencia que se muestra en el badge del README. Se mantiene estable alrededor del 82%.
+- Cobertura total del repositorio (incluye `run_automation.py` y `scripts/`): es la cifra que reporta `coverage.json` y desciende al incorporar código nuevo que todavía no está cubierto por tests.
+
+Cuando se añade un script operativo nuevo, la cobertura total puede bajar sin que exista una regresión real. La medición oficial se regenera siempre con `python scripts/record_metrics.py` y queda registrada en `docs/metrics_log.md` y `docs/metrics_log.json`.
+
 ## Dónde se almacenan las métricas
 
 - Log legible histórico: docs/metrics_log.md — se añade una entrada cada vez que se ejecuta la medición (normalmente tras una actualización de tests o al completar un hito relevante).

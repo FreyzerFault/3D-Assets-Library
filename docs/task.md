@@ -2,10 +2,10 @@
 
 ## Snapshot breve
 
-- Proyecto: Biblioteca estática de assets 3D.
+- Proyecto: biblioteca estática de assets 3D.
 - Stack: HTML/CSS/JS (frontend), `model-viewer` (visor), Python 3 (scripts), `assets.json` (catálogo), `models/` (GLB).
-- Estado: prototipo funcional, catálogo con ~28 assets, validación normalizada, seguimiento de métricas y calidad local automatizada.
-- Calidad: suite de tests estable, cobertura registrada en docs/metrics_log.json, scripts de registro/monitorización añadidos y flujos de validación preparados.
+- Estado: catálogo funcional con 28 assets, validación normalizada, métricas registradas y flujos automatizados listos.
+- Calidad: suite estable, cobertura registrada en `docs/metrics_log.json`, script de registro automático y CI configurado.
 
 ## Trabajo completado (evidencia)
 
@@ -32,9 +32,9 @@ Ordenado por impacto y coste (alta → baja). Cada ítem incluye criterio de ace
   - Qué: mejorar mensajes de validación, salida CLI y generar un `assets-report.json` con issues detectados.
   - DoD cumplido: ejecución `python generate_assets_data.py --report` genera `assets-report.json` con listas `errors` y `warnings`.
 
-- [COMPLETADO] UX móvil: paginación / lazy loading (Media)
-  - Qué: implementar paginación simple + lazy-loading de visores para reducir consumo en móviles.
-  - DoD cumplido: la vista carga un bloque inicial de assets, permite cargar más y retarda la carga del `model-viewer` hasta que entra en pantalla.
+- [COMPLETADO] UX móvil: paginación / carga diferida (Media)
+  - Qué: implementar paginación simple + carga diferida de visores para reducir consumo en móviles.
+  - DoD cumplido: la vista carga un bloque inicial de assets, permite cargar más y retarda la creación de los visores `model-viewer` hasta que el elemento entra en pantalla.
 
 - [COMPLETADO] CI de generación y validación (Baja)
   - Qué: añadir workflow de GitHub Actions que ejecute los tests y valide que el catálogo y el reporte se regeneran correctamente.
@@ -84,10 +84,10 @@ Ordenado por impacto y coste (alta → baja). Cada ítem incluye criterio de ace
 
 ## Próximos pasos recomendados (acción inmediata)
 
-1. Implementar la prioridad media siguiente: UX móvil con paginación/lazy loading.
-2. Preparar el flujo de CI para validación automática y despliegue manual.
-3. Mantener el backlog sincronizado con la documentación cuando cambien requisitos o arquitectura.
+1. Mantener el backlog sincronizado con la documentación cuando cambien requisitos o arquitectura.
+2. Mejorar la cobertura y la interpretación de las métricas de referencia si se amplía el código del proyecto.
+3. Continuar con la política de archivos grandes y la organización de `models/` si el catálogo crece.
 
 ---
 
-Resumen: task.md ahora es un backlog compacto, alineado con SPECIFICATIONS.md y ARCHITECTURE.md, priorizando estabilidad y facilidad de revisión por agentes y humanos.
+Resumen: task.md es un backlog compacto, alineado con SPECIFICATIONS.md y ARCHITECTURE.md. Los flujos básicos (catálogo, validación, CI, despliegue, métricas y automatización única) ya están listos; la prioridad actual es mantener la documentación al día y controlar el crecimiento del catálogo sin añadir complejidad innecesaria.

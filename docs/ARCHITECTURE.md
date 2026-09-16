@@ -20,11 +20,8 @@
 ├── generate_assets_data.py
 ├── run_automation.py
 ├── run_automation.bat
-├── run_autopilot_loop.py
-├── run_autopilot_loop.bat
 ├── models/
 ├── scripts/
-│   └── autopilot_webhook_server.py
 ├── docs/
 │   ├── SPECIFICATIONS.md
 │   ├── ARCHITECTURE.md

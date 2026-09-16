@@ -32,6 +32,7 @@ El sistema actual prioriza simplicidad, portabilidad y facilidad de gestión sob
 - La web debe renderizar cada asset en un visor 3D.
 - Cada asset debe mostrar nombre, categoría, descripción y botón de descarga.
 - La visualización debe funcionar sin un backend ni un build step.
+- La web debe cargar los assets por bloques y diferir la creación de cada visor hasta que entre en pantalla.
 
 ### 3.3 Mantenibilidad
 
@@ -79,9 +80,7 @@ Reglas actuales:
 Estos objetivos no forman parte del estado actual, pero sí de la dirección deseada del proyecto:
 
 - mantener historial de cambios de los assets
-- añadir validación de nombres y tamaños de archivo
 - preparar metadatos avanzados (peso, fecha, tags, visibilidad, proyecto origen)
-- mejorar la navegación en móvil con paginación o carga diferida
 - soportar proyectos asociados de Blender u otros programas
 - preparar una capa de administración con visibilidad pública/privada
 

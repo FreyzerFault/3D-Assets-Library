@@ -30,6 +30,7 @@ This repository is a lightweight static 3D asset library. The goal is to catalog
   4. Only continue with new tasks after the entire test suite is passing.
 
   This policy ensures regressions are caught early and that agentic changes remain safe and reversible.
+
 - After completing a task, create a descriptive git commit with a clear summary of the work completed.
 - If the codebase has diverged substantially since the last meaningful commit, create one descriptive commit for the related changes or split the work into multiple commits when the edits are unrelated, keeping each commit focused and understandable.
 - When tests are updated, always compute project coverage via the repository script (scripts/record_metrics.py) and append the resulting metrics entry to docs/metrics_log.md. The metrics schema and guidance live in docs/METRICS.md.
@@ -61,3 +62,8 @@ This repository is a lightweight static 3D asset library. The goal is to catalog
 - The web UI is static and loads `assets.json` from the browser.
 - The project is designed for static hosting, not for a production multi-user app.
 - The SDD documentation for the project lives in `docs/`.
+- When you work on architecture, check `docs/ARCHITECTURE.md`.
+- When you work on metrics, check `docs/METRICS.md`.
+- When you work on specifications, check `docs/SPECIFICATIONS.md`.
+- When you work on testing, check `docs/TESTING.md`.
+- When you work on tasks, check `docs/task.md`.

@@ -1,6 +1,6 @@
 ﻿# 3D Assets Library
 
-![Coverage](https://img.shields.io/badge/coverage-82%25-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-reference-82%25-brightgreen)
 
 Biblioteca estática de assets 3D para visualizar, revisar y descargar modelos `.glb` desde una web ligera sin backend.
 
@@ -87,3 +87,5 @@ El proyecto está en una fase funcional y simple, orientada a catálogo y visual
 - Historial legible: `docs/metrics_log.md`
 - Historial estructurado: `docs/metrics_log.json`
 - Tendencia de cobertura: `docs/metrics_trend.txt`
+
+> La badge de cobertura es un indicador de referencia del núcleo del generador. La medición oficial del proyecto se regenera con `scripts/record_metrics.py` y puede variar según qué archivos se incluyan en la medición.
