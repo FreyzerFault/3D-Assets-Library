@@ -1,4 +1,4 @@
-﻿# 3D Assets Library
+# 3D Assets Library
 
 ![Coverage](https://img.shields.io/badge/coverage-reference-82%25-brightgreen)
 

@@ -1,4 +1,4 @@
-﻿# Especificaciones del proyecto
+# Especificaciones del proyecto
 
 ## 1. Propósito
 

@@ -1,4 +1,4 @@
-﻿# Arquitectura actual
+# Arquitectura actual
 
 ## Stack
 
