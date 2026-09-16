@@ -772,5 +772,79 @@
       "issues": 0,
       "warnings": 6
     }
+  },
+  {
+    "timestamp": "2026-09-16T02:31:48.090004+00:00",
+    "commit": "660b919",
+    "test_count": 41,
+    "failed_tests": 0,
+    "test_duration_seconds": 0.5,
+    "coverage_total": 86.9140625,
+    "coverage_files": [
+      {
+        "file": "generate_assets_data.py",
+        "percent_covered": null,
+        "missing_lines": [
+          59,
+          71,
+          75,
+          79,
+          83,
+          115,
+          116,
+          186,
+          282,
+          283,
+          284,
+          320,
+          322
+        ]
+      },
+      {
+        "file": "run_automation.py",
+        "percent_covered": null,
+        "missing_lines": [
+          61,
+          83
+        ]
+      },
+      {
+        "file": "scripts\\metrics_trend.py",
+        "percent_covered": null,
+        "missing_lines": [
+          60
+        ]
+      },
+      {
+        "file": "scripts\\record_metrics.py",
+        "percent_covered": null,
+        "missing_lines": [
+          28,
+          29,
+          30,
+          49,
+          70,
+          75,
+          76,
+          111,
+          129,
+          130,
+          147,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          200
+        ]
+      }
+    ],
+    "assets_summary": {
+      "total_assets": 28,
+      "issues": 0,
+      "warnings": 6
+    }
   }
 ]
