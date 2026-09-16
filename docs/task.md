@@ -18,10 +18,7 @@
 
 ### Ahora
 
-- [ ] **T9 — Update README repository structure tree** (impacto bajo / coste bajo)
-  - Qué: el árbol de `docs/` en README.md muestra solo 4 archivos y omite `CONTRIBUTING.md`, `assets-report.json`, `run_automation.py`, `run_automation.bat`, `.pre-commit-config.yaml`, `.flake8`, `.coveragerc`, `.agents/` y `scripts/`.
-  - Por qué: la documentación debe reflejar con precisión el estado real del repositorio para colaboradores y agentes.
-  - DoD: el árbol de README.md incluye todos los archivos/directorios del repositorio y coincide con `docs/ARCHITECTURE.md`.
+- (vacía — T9 completada y archivada)
 
 ### Aparcado (requiere decisión explícita)
 

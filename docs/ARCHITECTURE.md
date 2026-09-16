@@ -49,6 +49,7 @@
 ├── tests/
 ├── .github/
 │   └── workflows/
+├── .vscode/
 └── AGENTS.md
 ```
 

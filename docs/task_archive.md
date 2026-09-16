@@ -78,6 +78,12 @@ Regla: al cerrar una tarea, moverla desde `docs/task.md` a este fichero con su D
 
 ## Despliegue y repositorio
 
+- [x] T9 — Update README repository structure tree
+  - Qué: el árbol de README.md mostraba solo 4 archivos en `docs/` y omitía `CONTRIBUTING.md`, `assets-report.json`, `run_automation.py`, `run_automation.bat`, `.pre-commit-config.yaml`, `.flake8`, `.coveragerc`, `.agents/` y `scripts/`.
+  - Por qué: la documentación debe reflejar con precisión el estado real del repositorio para colaboradores y agentes.
+  - DoD: el árbol de README.md incluye todos los archivos/directorios del repositorio y coincide con `docs/ARCHITECTURE.md`.
+  - Evidencia: `README.md` líneas 19-59 y `docs/ARCHITECTURE.md` líneas 14-54 con el mismo árbol completo (se añadió además `.vscode/`, que existía en disco con 4 ficheros pero no estaba listado en ninguno de los dos árboles).
+
 - [x] Despliegue automático a GitHub Pages (Baja)
   - Evidencia: `.github/workflows/deploy-pages.yml`.
 - [x] Higiene del repositorio y artefactos locales (Media)
