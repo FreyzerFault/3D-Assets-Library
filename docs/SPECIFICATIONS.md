@@ -58,6 +58,7 @@ El catálogo actual usa esta estructura mínima:
   "file": "models/archivo.glb",
   "category": "Props",
   "description": "Texto descriptivo",
+  "tags": ["low-poly", "ejercicio"],
   "size_bytes": 123456,
   "modified_at": "2026-09-15T20:00:00+00:00"
 }
@@ -65,8 +66,9 @@ El catálogo actual usa esta estructura mínima:
 
 Reglas actuales:
 - `file` debe ser una ruta relativa al proyecto.
-- `category` debe ser una etiqueta simple, normalmente `Props`.
+- `category` debe ser una etiqueta simple (Personajes, Armas, Anatomía, Vehículos, Arquitectura, Criaturas, Robótica, Props).
 - `description` es opcional.
+- `tags` es una lista opcional de etiquetas en minúsculas; se normaliza y deduplica automáticamente y se omite cuando queda vacía.
 - `size_bytes` y `modified_at` se rellenan automáticamente cuando se ejecuta el script de mantenimiento.
 
 ## 6. Reglas de nomenclatura y normalización

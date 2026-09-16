@@ -18,11 +18,6 @@
 
 ### Ahora
 
-- [ ] **T6 — Categorías reales y tags por asset** (impacto medio / coste medio)
-  - Qué: hoy todo asset nuevo entra como `category: "Props"` y sin tags. Definir categorías útiles y tags legibles, soportados en `assets.json` y en la UI.
-  - Por qué: habilita T5 y mejora la descripción del catálogo.
-  - DoD: el catálogo admite varios valores de categoría y tags, y la web los muestra.
-
 - [ ] **T7 — Descriptions reales en el frontmatter de los SKILL.md** (impacto bajo / coste bajo)
   - Qué: los tres `SKILL.md` llevan `description: Brief description of what this skill does` como marcador de posición, y sus secciones `## Usage` son frases sueltas poco informativas.
   - Por qué: es el texto que ve un agente para decidir si la skill encaja; un marcador de posición anula esa señal.
