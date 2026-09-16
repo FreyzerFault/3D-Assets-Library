@@ -18,17 +18,12 @@
 
 ### Ahora
 
-- [ ] **T4 — Verificar la política de archivos grandes** (impacto medio / coste medio)
-  - Qué: comprobación reproducible que detecte activos mal ubicados según la política (`models/large/` para >100 MB, `models/2gb-plus/` para >2 GB fuera de git) y avise con instrucciones.
-  - Por qué: hoy la política existe solo como convención documentada; nada la hace cumplir.
-  - DoD: la comprobación lista los activos mal ubicados y está cubierta por tests.
-
-### Siguiente
-
 - [ ] **T5 — Búsqueda y filtros en la web** (impacto medio / coste medio)
   - Qué: filtro por categoría y búsqueda por nombre sobre `assets.json`, integrados con la paginación existente.
   - Por qué: con 28 assets, recorrer la cuadrícula a mano ya es incómodo.
   - DoD: se puede filtrar y buscar sin recargar y la paginación sigue funcionando.
+
+### Siguiente
 
 - [ ] **T6 — Categorías reales y tags por asset** (impacto medio / coste medio)
   - Qué: hoy todo asset nuevo entra como `category: "Props"` y sin tags. Definir categorías útiles y tags legibles, soportados en `assets.json` y en la UI.

@@ -21,6 +21,9 @@ Regla: al cerrar una tarea, moverla desde `docs/task.md` a este fichero con su D
   - Evidencia: nombres normalizados en formato título y conflictos detectados tras normalizar.
 - [x] Validación y reporting (Media)
   - Evidencia: `python generate_assets_data.py --report` genera `assets-report.json` con listas `errors` y `warnings` y resumen de conteos.
+- [x] Verificar la política de archivos grandes (Media)
+  - Qué: comprobación reproducible que detecte activos mal ubicados según la política (`models/large/` para >100 MB, `models/2gb-plus/` para >2 GB) y avise con instrucciones.
+  - Evidencia: `check_size_policy` en `generate_assets_data.py`, integrada en `main()` y en `assets-report.json`; 7 tests nuevos (`test_check_size_policy_*` y `test_main_includes_policy_issues_in_report`), suite en verde con **41 tests, OK**. El catálogo real (28 assets) no genera avisos de política. El test de aceptación destapó un bug de la primera implementación (un fichero correcto en `models/2gb-plus/` se marcaba como mal ubicado), corregido antes de cerrar la tarea.
 
 ## Tests y calidad
 

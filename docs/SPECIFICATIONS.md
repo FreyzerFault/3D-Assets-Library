@@ -26,6 +26,7 @@ El sistema actual prioriza simplicidad, portabilidad y facilidad de gestión sob
 - El catálogo debe almacenar metadatos operativos útiles: `size_bytes` y `modified_at`.
 - El sistema debe advertir cuando un archivo supera los umbrales de tamaño de 10 MB y 100 MB.
 - La estructura de almacenamiento debe respetar la política: `models/large/` para >100 MB, `models/projects/` para fuentes de autoría y `models/2gb-plus/` como compartimento exclusivo para archivos >2 GB no versionados en Git.
+- El sistema debe detectar los activos mal ubicados según esa política y proponer la carpeta correcta en la salida y en `assets-report.json`.
 
 ### 3.2 Visualización en web
 
