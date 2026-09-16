@@ -11,7 +11,13 @@ Regla: al cerrar una tarea, moverla desde `docs/task.md` a este fichero con su D
 - [x] T7 — Descriptions reales en el frontmatter de los SKILL.md
   - Qué: los tres `SKILL.md` llevaban `description: Brief description of what this skill does` como marcador de posición, y sus secciones `## Usage` eran frases sueltas poco informativas.
     - DoD: cada `SKILL.md` describe en una línea qué hace y cuándo usarla, sin marcadores de posición.
-  - Evidencia: `.agents/skills/implement-task/SKILL.md`, `.agents/skills/project-review/SKILL.md` y `.agents/skills/test-and-verify/SKILL.md` ahora tienen descripciones concretas en el frontmatter y secciones `## Usage` descriptivas. Verificado con búsqueda de `Brief description` en el repositorio (0 coincidencias restantes).
+    - Evidencia: `.agents/skills/implement-task/SKILL.md`, `.agents/skills/project-review/SKILL.md` y `.agents/skills/test-and-verify/SKILL.md` ahora tienen descripciones concretas en el frontmatter y secciones `## Usage` descriptivas. Verificado con búsqueda de `Brief description` en el repositorio (0 coincidencias restantes).
+
+- [x] T8 — Fix per-file coverage percentage in `record_metrics.py`
+  - Qué: `load_coverage_summary` leía `percent_covered` del nivel raíz del diccionario de archivo en `coverage.json`, pero el formato real anida la métrica dentro de `summary`. Todos los archivos aparecían con `None%`.
+  - Por qué: las métricas de cobertura por archivo eran inútiles; se perdía la capacidad de identificar qué archivos necesitan más tests.
+  - DoD: `load_coverage_summary` extrae `percent_covered` de `info["summary"]`; `docs/metrics_log.json` del último registro muestra valores numéricos reales por archivo; test actualizado para usar el formato real de `coverage.json`.
+  - Evidencia: `scripts/record_metrics.py` línea 58-59 lee `summary.get("percent_covered")`; `tests/test_metrics_scripts.py` `test_load_coverage_summary_reads_json` ahora usa el formato real con sub-diccionario `summary` y verifica `percent_covered`; `docs/metrics_log.json` entrada `2026-09-16T11:26:22` muestra 89.86% (generate_assets_data.py), 92.16% (run_automation.py), 96.67% (metrics_trend.py), 75.37% (record_metrics.py). Suite: 44 tests, OK.
 
 ## Fundamentos del catálogo
 

@@ -203,3 +203,20 @@ Este fichero recoge el historial legible de mediciones ejecutadas por scripts/re
   - warnings: 6
 
 
+---
+## 2026-09-16T11:26:22.996304+00:00 UTC  — automated metrics
+- Commit: 443ffb9
+- Tests: 44 total, 0 failed
+- Test duration (s): 0.39
+- Coverage total: 87.24584103512015%
+- Coverage highlights:
+  - scripts\record_metrics.py: 75.3731343283582%
+  - generate_assets_data.py: 89.86486486486487%
+  - run_automation.py: 92.15686274509804%
+  - scripts\metrics_trend.py: 96.66666666666667%
+- Catalog metrics:
+  - total_assets: 28
+  - issues: 0
+  - warnings: 6
+
+

@@ -41,7 +41,9 @@ class MetricsScriptTests(unittest.TestCase):
                         "totals": {"percent_covered": 88.5},
                         "files": {
                             "generate_assets_data.py": {
-                                "percent_covered": 88.5,
+                                "summary": {
+                                    "percent_covered": 88.5,
+                                },
                                 "missing_lines": [12, 15],
                             }
                         },
@@ -54,6 +56,8 @@ class MetricsScriptTests(unittest.TestCase):
             self.assertEqual(total_cov, 88.5)
             self.assertEqual(len(files), 1)
             self.assertEqual(files[0]["file"], "generate_assets_data.py")
+            self.assertEqual(files[0]["percent_covered"], 88.5)
+            self.assertEqual(files[0]["missing_lines"], [12, 15])
 
     def test_read_assets_summary_reads_report(self):
         with tempfile.TemporaryDirectory() as tmpdir:

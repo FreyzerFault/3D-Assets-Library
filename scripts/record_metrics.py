@@ -51,14 +51,16 @@ def load_coverage_summary(path):
     with path.open("r", encoding="utf-8") as f:
         cov = json.load(f)
 
-    totals = cov.get("totals") or {}
+        totals = cov.get("totals") or {}
     total_cov = totals.get("percent_covered") or totals.get("percent")
     files = []
     for fname, info in (cov.get("files") or {}).items():
+        summary = info.get("summary") or {}
         files.append(
             {
                 "file": fname,
-                "percent_covered": info.get("percent_covered") or info.get("percent"),
+                "percent_covered": summary.get("percent_covered")
+                or summary.get("percent"),
                 "missing_lines": info.get("missing_lines", []),
             }
         )
