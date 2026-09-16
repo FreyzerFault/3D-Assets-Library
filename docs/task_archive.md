@@ -53,6 +53,10 @@ Regla: al cerrar una tarea, moverla desde `docs/task.md` a este fichero con su D
 
 ## Web y UX
 
+- [x] Búsqueda y filtros en la web (Media)
+  - Qué: filtro por categoría y búsqueda por nombre sobre `assets.json`, integrados con la paginación existente.
+  - Evidencia: sección `#controls` en `index.html` con input de búsqueda, select de categorías poblado desde el catálogo y contador de resultados. Filtrado sin recargar (`applyFilters`, insensible a mayúsculas y acentos) que reinicia la paginación (`resetRenderedAssets`) y vuelve a renderizar por bloques de `PAGE_SIZE` manteniendo el botón y el sentinel; mensaje vacío cuando no hay coincidencias. Las tarjetas se insertan ahora antes del botón "Cargar más" para no romper el orden del grid al paginar. Sintaxis del script validada con `node --check`; el proyecto no tiene tooling de pruebas de navegador.
+
 - [x] Paginación y carga diferida (Media)
   - Evidencia: `index.html` con `PAGE_SIZE = 6`, botón "Cargar más" e `IntersectionObserver` que asigna `model.src` solo cuando el visor entra en pantalla.
 

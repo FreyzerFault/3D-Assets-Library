@@ -54,6 +54,42 @@
         font-size: 1rem;
       }
 
+      #controls {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      #controls input,
+      #controls select {
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--panel);
+        color: var(--text);
+        font: inherit;
+      }
+
+      #controls input {
+        flex: 1 1 240px;
+        min-width: 200px;
+      }
+
+      #controls input:focus,
+      #controls select:focus {
+        outline: none;
+        border-color: var(--accent-strong);
+      }
+
+      .result-count {
+        color: var(--soft);
+        font-size: 0.85rem;
+      }
+
       #assets {
         max-width: 1400px;
         margin: 0 auto;
@@ -183,6 +219,10 @@
           padding: 35px 20px 20px;
         }
 
+        #controls {
+          padding: 0 20px 10px;
+        }
+
         #assets {
           padding: 20px;
           grid-template-columns: 1fr;
@@ -197,15 +237,118 @@
       <p>Modelos 3D creados por mí.</p>
     </header>
 
+    <section id="controls">
+      <input id="search-input" type="search" placeholder="Buscar por nombre…" autocomplete="off" />
+      <select id="category-filter">
+        <option value="">Todas las categorías</option>
+      </select>
+      <span id="result-count" class="result-count" hidden></span>
+    </section>
+
     <main id="assets"></main>
 
     <script>
       const container = document.getElementById('assets')
+      const searchInput = document.getElementById('search-input')
+      const categoryFilter = document.getElementById('category-filter')
+      const resultCount = document.getElementById('result-count')
       const PAGE_SIZE = 6
       let allAssets = []
+      let filteredAssets = []
       let renderedCount = 0
       let loadMoreButton = null
       let sentinel = null
+
+      const normalizeText = (value) =>
+        String(value || '')
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+
+      const appendCard = (card) => {
+        if (loadMoreButton) {
+          container.insertBefore(card, loadMoreButton)
+          return
+        }
+
+        container.appendChild(card)
+      }
+
+      const clearEmptyMessage = () => {
+        const message = container.querySelector('.empty-message')
+        if (message) {
+          message.remove()
+        }
+      }
+
+      const showEmptyMessage = (text) => {
+        let message = container.querySelector('.empty-message')
+
+        if (!message) {
+          message = document.createElement('div')
+          message.className = 'empty-message'
+
+          if (loadMoreButton) {
+            container.insertBefore(message, loadMoreButton)
+          } else {
+            container.appendChild(message)
+          }
+        }
+
+        message.textContent = text
+      }
+
+      const populateCategoryFilter = () => {
+        const categories = [
+          ...new Set(allAssets.map((asset) => asset.category).filter(Boolean)),
+        ].sort((a, b) => a.localeCompare(b, 'es'))
+
+        categories.forEach((category) => {
+          const option = document.createElement('option')
+          option.value = category
+          option.textContent = category
+          categoryFilter.appendChild(option)
+        })
+      }
+
+      const updateLoadMoreState = () => {
+        if (!loadMoreButton) {
+          return
+        }
+
+        const exhausted = renderedCount >= filteredAssets.length
+        loadMoreButton.disabled = exhausted
+        loadMoreButton.textContent = exhausted ? 'No hay más assets' : 'Cargar más assets'
+      }
+
+      const updateResultCount = () => {
+        resultCount.textContent = `${filteredAssets.length} de ${allAssets.length} assets`
+        resultCount.hidden = false
+      }
+
+      const resetRenderedAssets = () => {
+        renderedCount = 0
+        container.querySelectorAll('.asset-card').forEach((card) => card.remove())
+        clearEmptyMessage()
+      }
+
+      const applyFilters = () => {
+        const query = normalizeText(searchInput.value.trim())
+        const category = categoryFilter.value
+
+        filteredAssets = allAssets.filter((asset) => {
+          const matchesQuery = !query || normalizeText(asset.name).includes(query)
+          const matchesCategory = !category || asset.category === category
+          return matchesQuery && matchesCategory
+        })
+
+        resetRenderedAssets()
+        renderNextBatch()
+        updateResultCount()
+      }
+
+      searchInput.addEventListener('input', applyFilters)
+      categoryFilter.addEventListener('change', applyFilters)
 
       const createViewer = (asset) => {
         const model = document.createElement('model-viewer')
@@ -265,30 +408,26 @@
       }
 
       const renderNextBatch = () => {
-        if (renderedCount >= allAssets.length) {
-          if (loadMoreButton) {
-            loadMoreButton.disabled = true
-            loadMoreButton.textContent = 'No hay más assets'
+        if (renderedCount >= filteredAssets.length) {
+          updateLoadMoreState()
+
+          if (filteredAssets.length === 0) {
+            showEmptyMessage('No hay assets que coincidan con la búsqueda.')
           }
 
           return
         }
 
-        const nextAssets = allAssets.slice(renderedCount, renderedCount + PAGE_SIZE)
+        clearEmptyMessage()
+
+        const nextAssets = filteredAssets.slice(renderedCount, renderedCount + PAGE_SIZE)
 
         nextAssets.forEach((asset) => {
-          const card = createCard(asset)
-          container.appendChild(card)
+          appendCard(createCard(asset))
         })
 
         renderedCount += nextAssets.length
-
-        if (loadMoreButton) {
-          loadMoreButton.disabled = renderedCount >= allAssets.length
-          if (renderedCount >= allAssets.length) {
-            loadMoreButton.textContent = 'No hay más assets'
-          }
-        }
+        updateLoadMoreState()
       }
 
       const attachLoadMore = () => {
@@ -342,9 +481,11 @@
           }
 
           allAssets = assets
-          renderNextBatch()
+          populateCategoryFilter()
+          applyFilters()
           attachLoadMore()
           attachSentinel()
+          updateLoadMoreState()
         })
         .catch((error) => {
           console.error(error)

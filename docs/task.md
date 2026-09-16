@@ -18,13 +18,6 @@
 
 ### Ahora
 
-- [ ] **T5 — Búsqueda y filtros en la web** (impacto medio / coste medio)
-  - Qué: filtro por categoría y búsqueda por nombre sobre `assets.json`, integrados con la paginación existente.
-  - Por qué: con 28 assets, recorrer la cuadrícula a mano ya es incómodo.
-  - DoD: se puede filtrar y buscar sin recargar y la paginación sigue funcionando.
-
-### Siguiente
-
 - [ ] **T6 — Categorías reales y tags por asset** (impacto medio / coste medio)
   - Qué: hoy todo asset nuevo entra como `category: "Props"` y sin tags. Definir categorías útiles y tags legibles, soportados en `assets.json` y en la UI.
   - Por qué: habilita T5 y mejora la descripción del catálogo.
