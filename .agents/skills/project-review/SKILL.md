@@ -14,10 +14,10 @@ When tests are ran successfully and before implementing a new task.
 ## Steps
 
 1. Read `docs/task.md` for current and pending work.
-2. Read `docs/architecture.md` to understand the intended structure.
-3. Read `docs/specifications.md` for project requirements.
-4. Read `docs/testing.md` for verification expectations.
-5. Read `docs/metrics.md` and `docs/metrics_log.md` when evaluating project progress or performance.
+2. Read `docs/ARCHITECTURE.md` to understand the intended structure.
+3. Read `docs/SPECIFICATIONS.md` for project requirements.
+4. Read `docs/TESTING.md` for verification expectations.
+5. Read `docs/METRICS.md` and `docs/metrics_log.md` when evaluating project progress or performance.
 6. Inspect relevant source files and configuration.
 7. Compare the current implementation against documented requirements and architecture.
 8. Identify:

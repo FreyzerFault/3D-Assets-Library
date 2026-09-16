@@ -14,24 +14,42 @@
 ```text
 .
 ├── README.md
+├── CONTRIBUTING.md
 ├── index.html
 ├── style.css
 ├── assets.json
+├── assets-report.json
 ├── generate_assets_data.py
 ├── run_automation.py
 ├── run_automation.bat
+├── .pre-commit-config.yaml
+├── .flake8
+├── .coveragerc
+├── .gitignore
+├── .agents/
+│   └── skills/            # flujos de trabajo para agentes
 ├── models/
+│   ├── README.md
+│   ├── large/
+│   ├── projects/
+│   └── 2gb-plus/          # fuera de git; gestionar con LFS o almacenamiento externo
 ├── scripts/
+│   ├── record_metrics.py
+│   └── metrics_trend.py
 ├── docs/
 │   ├── SPECIFICATIONS.md
 │   ├── ARCHITECTURE.md
-│   ├── task.md
+│   ├── TESTING.md
 │   ├── METRICS.md
-│   └── metrics_log.md
+│   ├── task.md
+│   ├── task_archive.md
+│   ├── metrics_log.md
+│   ├── metrics_log.json
+│   └── metrics_trend.txt
 ├── tests/
 ├── .github/
-├── AGENTS.md
-└── .gitignore
+│   └── workflows/
+└── AGENTS.md
 ```
 
 ## Componentes principales

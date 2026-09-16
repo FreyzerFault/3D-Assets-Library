@@ -13,12 +13,10 @@ When tests are success completely and there's no review to make.
 
 ## Steps
 
-## Objective
-
 1. Read `docs/task.md` and identify the target task and acceptance criteria.
 2. If there's no task pending, create another one from the Backlog or identify it yourself from Specifications
 3. Analyze the task and rewrite it if needed, or fragment it in more tasks if too complex or risky.
-4. Read `docs/architecture.md` and `docs/specifications.md` for relevant constraints.
+4. Read `docs/ARCHITECTURE.md` and `docs/SPECIFICATIONS.md` for relevant constraints.
 5. Inspect the existing implementation and related tests before changing code.
 6. Create a concise implementation plan.
 7. Modify only the files necessary to implement the task.

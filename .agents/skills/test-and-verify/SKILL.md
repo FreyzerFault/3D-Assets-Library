@@ -13,7 +13,7 @@ When big changes are made or a milestone is completed.
 
 ## Steps
 
-1. Read `docs/testing.md` to identify the project's testing and verification procedures.
+1. Read `docs/TESTING.md` to identify the project's testing and verification procedures.
 2. Inspect the relevant implementation and recent changes.
 3. Identify the tests and checks relevant to the current task.
 4. Run the smallest relevant test set first.
