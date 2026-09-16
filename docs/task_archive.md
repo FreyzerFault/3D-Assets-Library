@@ -6,6 +6,13 @@ Regla: al cerrar una tarea, moverla desde `docs/task.md` a este fichero con su D
 
 ---
 
+## Calidad y agent tooling
+
+- [x] T7 — Descriptions reales en el frontmatter de los SKILL.md
+  - Qué: los tres `SKILL.md` llevaban `description: Brief description of what this skill does` como marcador de posición, y sus secciones `## Usage` eran frases sueltas poco informativas.
+    - DoD: cada `SKILL.md` describe en una línea qué hace y cuándo usarla, sin marcadores de posición.
+  - Evidencia: `.agents/skills/implement-task/SKILL.md`, `.agents/skills/project-review/SKILL.md` y `.agents/skills/test-and-verify/SKILL.md` ahora tienen descripciones concretas en el frontmatter y secciones `## Usage` descriptivas. Verificado con búsqueda de `Brief description` en el repositorio (0 coincidencias restantes).
+
 ## Fundamentos del catálogo
 
 - [x] Resolución de rutas relativa al script

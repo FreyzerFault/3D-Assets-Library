@@ -18,10 +18,7 @@
 
 ### Ahora
 
-- [ ] **T7 — Descriptions reales en el frontmatter de los SKILL.md** (impacto bajo / coste bajo)
-  - Qué: los tres `SKILL.md` llevan `description: Brief description of what this skill does` como marcador de posición, y sus secciones `## Usage` son frases sueltas poco informativas.
-  - Por qué: es el texto que ve un agente para decidir si la skill encaja; un marcador de posición anula esa señal.
-  - DoD: cada `SKILL.md` describe en una línea qué hace y cuándo usarla, sin marcadores de posición.
+- (vacía — ver `docs/task_archive.md` para el trabajo completado)
 
 ### Aparcado (requiere decisión explícita)
 

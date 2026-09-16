@@ -1,6 +1,6 @@
 ---
 name: implement-task
-description: Brief description of what this skill does
+description: Implements pending tasks from docs/task.md while preserving existing behavior, conventions and test coverage.
 ---
 
 # implement-task
@@ -9,7 +9,7 @@ Implement the requested task in the project while preserving existing behavior.
 
 ## Usage
 
-When tests are success completely and there's no review to make.
+When there is a task in docs/task.md with a clear DoC to implement, or when a new requirement is identified from specifications, the backlog, or a project review.
 
 ## Steps
 

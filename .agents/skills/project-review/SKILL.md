@@ -1,6 +1,6 @@
 ---
 name: project-review
-description: Brief description of what this skill does
+description: Reviews project state against documentation, identifies issues and gaps, and provides prioritized actionable recommendations without modifying files.
 ---
 
 # project-review
@@ -9,7 +9,7 @@ Review the current project state, identify important issues, and provide actiona
 
 ## Usage
 
-When tests are ran successfully and before implementing a new task.
+Before starting a new task, when evaluating project health, or to obtain a prioritized assessment of project issues before making changes.
 
 ## Steps
 

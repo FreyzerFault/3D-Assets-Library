@@ -1,6 +1,6 @@
 ---
 name: test-and-verify
-description: Brief description of what this skill does
+description: Verifies the implementation by running the test suite, checking for regressions, and documenting results with fixes where needed.
 ---
 
 # test-and-verify
@@ -9,7 +9,7 @@ Verify that the current implementation works correctly and that recent changes h
 
 ## Usage
 
-When big changes are made or a milestone is completed.
+After implementing a task, when a milestone or significant change is completed, or before deployment to confirm nothing is broken.
 
 ## Steps
 
