@@ -37,6 +37,10 @@ Regla: al cerrar una tarea, moverla desde `docs/task.md` a este fichero con su D
 
 ## Automatización y métricas
 
+- [x] Cubrir los caminos de error de los scripts operativos (Alta)
+  - Qué: tests para los caminos de error de `record_metrics.py`, `metrics_trend.py` y `run_automation.py`.
+  - Evidencia: 13 tests nuevos; suite en verde con **34 tests, OK** (`python -m unittest discover -s tests -v`). Cobertura por fichero (`coverage.json`): `run_automation.py` 92%, `scripts/metrics_trend.py` 97%, `scripts/record_metrics.py` 75%, todos por encima del umbral `fail_under = 70` de `.coveragerc`; cobertura total 83%.
+  - Nota: `record_metrics.py` se ejecutó dos veces en la misma sesión y dejó dos entradas consecutivas en `docs/metrics_log.md`; es un artefacto de la sesión, no del pipeline.
 - [x] Registro de métricas y tendencia (Alta)
   - Evidencia: `scripts/record_metrics.py` (historial legible + `docs/metrics_log.json`), `scripts/metrics_trend.py` (`docs/metrics_trend.txt`) y `docs/METRICS.md`.
 - [x] Documentar la métrica de cobertura de referencia

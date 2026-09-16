@@ -18,23 +18,12 @@
 
 ### Ahora
 
-- [ ] **T1 — Normalizar las rutas de documentación en los SKILL.md** (impacto medio / coste bajo)
-  - Qué: `.agents/skills/implement-task/SKILL.md`, `.agents/skills/project-review/SKILL.md` y `.agents/skills/test-and-verify/SKILL.md` referencian `docs/architecture.md`, `docs/specifications.md`, `docs/testing.md` y `docs/metrics.md` en minúsculas, pero los ficheros reales están en mayúsculas.
-  - Por qué: en Linux (CI) esas rutas no existen y los flujos de agentes leen documentación inexistente.
-  - DoD: los tres SKILL.md usan los nombres reales y no queda ninguna referencia en minúsculas.
-
-- [ ] **T2 — Cubrir los caminos de error de los scripts operativos** (impacto alto / coste medio) — *implementado; falta verificar cobertura*
-  - Qué: tests para `scripts/record_metrics.py` (coverage.json ausente o inválido, `assets-report.json` corrupto, fallo de `git rev-parse`, historial JSON corrupto o no-lista), `scripts/metrics_trend.py` (historial vacío, entradas sin `coverage_total`, fichero ausente, payload no-lista, rango plano en `make_bar`) y `run_automation.py` (parada temprana, secuencia completa, `main()` y propagación de fallo).
-  - Por qué: es el pipeline que sostiene las métricas; un fallo silencioso deja el registro desactualizado sin avisar.
-  - DoD: nuevos tests en verde y cobertura de `scripts/` y `run_automation.py` por encima del umbral `fail_under = 70` de `.coveragerc`.
-  - Estado: 13 tests nuevos añadidos; suite en verde con **34 tests, OK**. Falta ejecutar `scripts/record_metrics.py` y comprobar la cobertura por fichero para cerrar el DoD.
-
-### Siguiente
-
 - [ ] **T4 — Verificar la política de archivos grandes** (impacto medio / coste medio)
   - Qué: comprobación reproducible que detecte activos mal ubicados según la política (`models/large/` para >100 MB, `models/2gb-plus/` para >2 GB fuera de git) y avise con instrucciones.
   - Por qué: hoy la política existe solo como convención documentada; nada la hace cumplir.
   - DoD: la comprobación lista los activos mal ubicados y está cubierta por tests.
+
+### Siguiente
 
 - [ ] **T5 — Búsqueda y filtros en la web** (impacto medio / coste medio)
   - Qué: filtro por categoría y búsqueda por nombre sobre `assets.json`, integrados con la paginación existente.
