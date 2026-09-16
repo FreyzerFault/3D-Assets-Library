@@ -23,10 +23,11 @@
   - Por qué: en Linux (CI) esas rutas no existen y los flujos de agentes leen documentación inexistente.
   - DoD: los tres SKILL.md usan los nombres reales y no queda ninguna referencia en minúsculas.
 
-- [ ] **T2 — Cubrir los caminos de error de los scripts operativos** (impacto alto / coste medio)
-  - Qué: tests para `scripts/record_metrics.py` (coverage.json ausente o inválido, `assets-report.json` corrupto, fallo de `git rev-parse`), `scripts/metrics_trend.py` (historial vacío, entradas sin `coverage_total`) y `run_automation.py` (parada temprana y secuencia completa).
+- [ ] **T2 — Cubrir los caminos de error de los scripts operativos** (impacto alto / coste medio) — *implementado; falta verificar cobertura*
+  - Qué: tests para `scripts/record_metrics.py` (coverage.json ausente o inválido, `assets-report.json` corrupto, fallo de `git rev-parse`, historial JSON corrupto o no-lista), `scripts/metrics_trend.py` (historial vacío, entradas sin `coverage_total`, fichero ausente, payload no-lista, rango plano en `make_bar`) y `run_automation.py` (parada temprana, secuencia completa, `main()` y propagación de fallo).
   - Por qué: es el pipeline que sostiene las métricas; un fallo silencioso deja el registro desactualizado sin avisar.
   - DoD: nuevos tests en verde y cobertura de `scripts/` y `run_automation.py` por encima del umbral `fail_under = 70` de `.coveragerc`.
+  - Estado: 13 tests nuevos añadidos; suite en verde con **34 tests, OK**. Falta ejecutar `scripts/record_metrics.py` y comprobar la cobertura por fichero para cerrar el DoD.
 
 ### Siguiente
 

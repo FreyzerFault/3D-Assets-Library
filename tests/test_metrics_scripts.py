@@ -213,5 +213,79 @@ class MetricsScriptTests(unittest.TestCase):
                 metrics_trend.OUTPUT_PATH = original_output
 
 
+    def test_make_bar_returns_full_bar_when_range_is_flat(self):
+        self.assertEqual(metrics_trend.make_bar(5, 5, 5, width=3), "###")
+
+    def test_load_entries_missing_file_raises(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            missing = Path(tmpdir) / "metrics_log.json"
+            original = metrics_trend.LOG_PATH
+            metrics_trend.LOG_PATH = missing
+            try:
+                with self.assertRaises(FileNotFoundError):
+                    metrics_trend.load_entries()
+            finally:
+                metrics_trend.LOG_PATH = original
+
+    def test_load_entries_rejects_non_list_payload(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "metrics_log.json"
+            path.write_text(json.dumps({"coverage_total": 80}), encoding="utf-8")
+            original = metrics_trend.LOG_PATH
+            metrics_trend.LOG_PATH = path
+            try:
+                with self.assertRaises(ValueError):
+                    metrics_trend.load_entries()
+            finally:
+                metrics_trend.LOG_PATH = original
+
+    def test_load_entries_skips_non_dict_items(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "metrics_log.json"
+            path.write_text(
+                json.dumps([{"coverage_total": 80}, "ruido", 42]), encoding="utf-8"
+            )
+            original = metrics_trend.LOG_PATH
+            metrics_trend.LOG_PATH = path
+            try:
+                entries = metrics_trend.load_entries()
+                self.assertEqual(entries, [{"coverage_total": 80}])
+            finally:
+                metrics_trend.LOG_PATH = original
+
+    def test_main_rejects_empty_history(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "metrics_log.json"
+            path.write_text(json.dumps([]), encoding="utf-8")
+            original_log = metrics_trend.LOG_PATH
+            original_output = metrics_trend.OUTPUT_PATH
+            try:
+                metrics_trend.LOG_PATH = path
+                metrics_trend.OUTPUT_PATH = Path(tmpdir) / "metrics_trend.txt"
+                with self.assertRaises(ValueError):
+                    metrics_trend.main()
+            finally:
+                metrics_trend.LOG_PATH = original_log
+                metrics_trend.OUTPUT_PATH = original_output
+
+    def test_main_rejects_entries_without_coverage(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "metrics_log.json"
+            path.write_text(
+                json.dumps([{"timestamp": "2026-09-16T00:00:00Z", "commit": "abc"}]),
+                encoding="utf-8",
+            )
+            original_log = metrics_trend.LOG_PATH
+            original_output = metrics_trend.OUTPUT_PATH
+            try:
+                metrics_trend.LOG_PATH = path
+                metrics_trend.OUTPUT_PATH = Path(tmpdir) / "metrics_trend.txt"
+                with self.assertRaises(ValueError):
+                    metrics_trend.main()
+            finally:
+                metrics_trend.LOG_PATH = original_log
+                metrics_trend.OUTPUT_PATH = original_output
+
+
 if __name__ == "__main__":
     unittest.main()
