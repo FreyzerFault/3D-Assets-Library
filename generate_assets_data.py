@@ -279,6 +279,73 @@ def generate_report(assets, issues, warnings, output_path=None):
     return output_path
 
 
+# region Large file policy fixes
+
+
+def fix_large_files(assets, models_dir=None):
+    """Reubica en disco los activos mal ubicados según la política de tamaño.
+
+    - `models/*.glb` (o subcarpetas que no sean large/2gb-plus/) con más de
+      100 MB se mueven a `models/large/`.
+    - Archivos en `models/large/` con 100 MB o menos vuelven a `models/`.
+    - `models/2gb-plus/` no se toca: esos blobs viven fuera del repo/LFS.
+
+    La comparación con el destino evita colisiones: si el fichero objetivo ya
+    existe, el asset se deja intacto para no sobrescribir nada.
+
+    Devuelve `(updated_assets, moves)` donde `moves` es la lista de
+    `(origen, destino)` en rutas relativas al proyecto.
+    """
+    if models_dir is None:
+        models_dir = MODELS_DIR
+
+    moves = []
+    updated_assets = []
+
+    for asset in assets:
+        file_path = normalize_file_path(asset.get("file", ""))
+        size_bytes = asset.get("size_bytes")
+
+        if not file_path or not isinstance(size_bytes, int):
+            updated_assets.append(asset)
+            continue
+
+        parts = Path(file_path).parts
+        in_large = len(parts) > 1 and parts[1] == "large"
+        in_two_gb = len(parts) > 1 and parts[1] == "2gb-plus"
+
+        target_path = None
+        if size_bytes > LARGE_FILE_LIMIT and not in_large and not in_two_gb:
+            target_path = f"models/large/{Path(file_path).name}"
+        elif in_large and size_bytes <= LARGE_FILE_LIMIT:
+            target_path = f"models/{Path(file_path).name}"
+
+        if target_path is None or target_path == file_path:
+            updated_assets.append(asset)
+            continue
+
+        source = BASE_DIR / file_path
+        destination = BASE_DIR / target_path
+
+        if not source.exists():
+            updated_assets.append(asset)
+            continue
+
+        if destination.exists():
+            updated_assets.append(asset)
+            continue
+
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        source.replace(destination)
+
+        fixed = dict(asset)
+        fixed["file"] = target_path
+        updated_assets.append(fixed)
+        moves.append((file_path, target_path))
+
+    return updated_assets, moves
+
+
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(
         description="Genera y valida el catálogo de assets 3D."
@@ -287,6 +354,13 @@ def parse_args(argv=None):
         "--report",
         action="store_true",
         help="Genera un assets-report.json con errores y warnings.",
+    )
+    parser.add_argument(
+        "--fix-large",
+        action="store_true",
+        help="Mueve los .glb mal ubicados según la política de tamaño "
+        "(.glb >100 MB a models/large/, pequeños de vuelta a models/) "
+        "y actualiza sus rutas en assets.json.",
     )
     return parser.parse_args(argv)
 
@@ -319,6 +393,19 @@ def main(argv=None):
         print("\n[WARN] Activos que no cumplen la política de archivos grandes:")
         for issue in policy_issues:
             print(f"  - {issue}")
+
+    if args.fix_large:
+        assets, moves = fix_large_files(assets)
+        if moves:
+            print("\n[OK] Archivos reubicados según la política de tamaño:")
+            for source, destination in moves:
+                print(f"  - {source} -> {destination}")
+        else:
+            print("\n[OK] No hay archivos que reubicar.")
+
+        # Recalcular avisos tras mover para que el reporte refleje el estado final.
+        warnings = warn_large_files(assets)
+        policy_issues = check_size_policy(assets)
 
     persist_assets(assets)
 

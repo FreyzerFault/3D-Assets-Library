@@ -18,7 +18,15 @@
 
 ### Ahora
 
-- (vacía — T9 completada y archivada)
+- [ ] **T11 — Asociación asset ↔ proyectos fuente** (impacto medio / coste medio)
+  - Qué: soportar campo opcional `projects` en `assets.json` (lista de rutas relativas a `models/projects/`), preservado por la normalización, validado (debe existir y estar bajo `models/projects/`), y visible en la web como insignias/enlaces.
+  - Por qué: es el item de backlog "many-to-many con `.blend`" en versión estática: sin backend, el catálogo enlaza cada asset con sus fuentes de autoría.
+  - DoD: `normalize_asset` preserva/normaliza `projects`; `validate_assets` reporta rutas inexistentes o fuera de `models/projects/`; `index.html` muestra los proyectos enlazados; tests de preservación y validación.
+
+- [ ] **T12 — Historial de cambios del catálogo** (impacto bajo / coste medio)
+  - Qué: `generate_assets_data.py` mantiene `assets-history.json` con el último estado conocido y un registro de eventos (`added`/`removed`/`updated` con fecha) calculado por diff en cada ejecución.
+  - Por qué: es el item de backlog "historial de cambios por asset" en versión estática: trazabilidad sin backend ni base de datos.
+  - DoD: el historial se crea/actualiza en cada run, registra altas/bajas/cambios (tamaño, fecha, nombre), limita el log (p. ej. 500 eventos), y tiene tests con directorios temporales.
 
 ### Aparcado (requiere decisión explícita)
 

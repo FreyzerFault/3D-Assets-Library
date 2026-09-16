@@ -27,6 +27,8 @@ El sistema actual prioriza simplicidad, portabilidad y facilidad de gestión sob
 - El sistema debe advertir cuando un archivo supera los umbrales de tamaño de 10 MB y 100 MB.
 - La estructura de almacenamiento debe respetar la política: `models/large/` para >100 MB, `models/projects/` para fuentes de autoría y `models/2gb-plus/` como compartimento exclusivo para archivos >2 GB no versionados en Git.
 - El sistema debe detectar los activos mal ubicados según esa política y proponer la carpeta correcta en la salida y en `assets-report.json`.
+- El sistema debe poder corregirlos con `python generate_assets_data.py --fix-large`, que mueve los archivos en disco (`models/*.glb` >100 MB → `models/large/`, pequeños en `large/` de vuelta a `models/`) y actualiza sus rutas en `assets.json`. No toca `models/2gb-plus/` ni destinos ya ocupados.
+- El sistema debe rellenar automáticamente los metadatos operativos `size_bytes` y `modified_at`.
 
 ### 3.2 Visualización en web
 

@@ -41,6 +41,11 @@ Regla: al cerrar una tarea, moverla desde `docs/task.md` a este fichero con su D
   - Qué: comprobación reproducible que detecte activos mal ubicados según la política (`models/large/` para >100 MB, `models/2gb-plus/` para >2 GB) y avise con instrucciones.
   - Evidencia: `check_size_policy` en `generate_assets_data.py`, integrada en `main()` y en `assets-report.json`; 7 tests nuevos (`test_check_size_policy_*` y `test_main_includes_policy_issues_in_report`), suite en verde con **41 tests, OK**. El catálogo real (28 assets) no genera avisos de política. El test de aceptación destapó un bug de la primera implementación (un fichero correcto en `models/2gb-plus/` se marcaba como mal ubicado), corregido antes de cerrar la tarea.
 
+- [x] T10 — Herramienta de política de archivos grandes
+  - Qué: `generate_assets_data.py` solo avisaba de activos mal ubicados (`check_size_policy`). Se añadió `--fix-large` (`fix_large_files`) que mueve los archivos según la política (`models/*.glb` >100 MB → `models/large/`, pequeños en `large/` de vuelta a `models/`) y actualiza las rutas en `assets.json`. No toca `models/2gb-plus/` ni destinos ya ocupados, y recalcula avisos antes del reporte.
+  - DoD: el flag mueve los archivos en disco, reescribe `file` en `assets.json`, no toca activos bien ubicados ni `2gb-plus/`, y tiene tests con directorios temporales.
+  - Evidencia: `generate_assets_data.py` `fix_large_files` + flag `--fix-large` en `parse_args`/`main`; 3 tests nuevos (`test_fix_large_files_*`) en `tests/test_generate_assets_data_more.py`; suite en verde con **47 tests, OK**; métricas registradas (`docs/metrics_log.md` entrada posterior a `9cbe911`); docs actualizadas (`README.md` uso de `--fix-large`, `docs/SPECIFICATIONS.md` §3.1, `docs/ARCHITECTURE.md` componentes, `docs/TESTING.md` prioridades).
+
 ## Tests y calidad
 
 - [x] Tests de smoke del generador

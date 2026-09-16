@@ -67,6 +67,13 @@ Métricas del proyecto: [docs/METRICS.md](docs/METRICS.md)
    ```bash
    python generate_assets_data.py
    ```
+
+   Para corregir automáticamente los archivos mal ubicados según la política
+   de tamaño (>100 MB → `models/large/`, pequeños de vuelta a `models/`):
+
+   ```bash
+   python generate_assets_data.py --fix-large
+   ```
 3. Abre `index.html` en un navegador o sirve el proyecto con un servidor estático.
 
 ### Flujo único de automatización

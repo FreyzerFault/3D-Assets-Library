@@ -75,7 +75,8 @@ Priorizar tests para:
 - Rechazo de rutas absolutas en assets.json.
 - Metadatos de archivo (size_bytes y modified_at), incluyendo comportamiento cuando falta el archivo.
 - Umbrales de advertencia para archivos grandes (10 MB / 100 MB), incluyendo límites exactos.
-- collect_new_assets: detectar que sólo se añaden .glb y que no se duplican entradas.
+- `collect_new_assets`: detectar que sólo se añaden .glb y que no se duplican entradas.
+- `fix_large_files`: mover `.glb` >100 MB a `models/large/`, devolver pequeños a `models/`, no tocar `2gb-plus/` ni destinos ocupados.
 
 ## Buenas prácticas de mantenimiento
 

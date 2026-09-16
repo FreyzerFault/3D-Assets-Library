@@ -115,6 +115,72 @@ class GenerateAssetsDataMoreTests(unittest.TestCase):
         self.assertEqual(payload["summary"]["issues"], 1)
         self.assertEqual(payload["summary"]["warnings"], 1)
 
+    def test_fix_large_files_moves_oversized_to_large(self):
+        big_path = self.models_dir / "big.glb"
+        big_path.write_text("big", encoding="utf-8")
+        assets = [
+            {
+                "name": "Big",
+                "file": "models/big.glb",
+                "category": "Props",
+                "description": "",
+                "size_bytes": generator.LARGE_FILE_LIMIT + 1,
+            }
+        ]
+        updated, moves = generator.fix_large_files(assets)
+        self.assertEqual(moves, [("models/big.glb", "models/large/big.glb")])
+        self.assertEqual(updated[0]["file"], "models/large/big.glb")
+        self.assertFalse(big_path.exists())
+        self.assertTrue((self.models_dir / "large" / "big.glb").exists())
+
+    def test_fix_large_files_moves_small_back_to_models(self):
+        large_dir = self.models_dir / "large"
+        large_dir.mkdir()
+        small_path = large_dir / "small.glb"
+        small_path.write_text("small", encoding="utf-8")
+        assets = [
+            {
+                "name": "Small",
+                "file": "models/large/small.glb",
+                "category": "Props",
+                "description": "",
+                "size_bytes": 10,
+            }
+        ]
+        updated, moves = generator.fix_large_files(assets)
+        self.assertEqual(moves, [("models/large/small.glb", "models/small.glb")])
+        self.assertEqual(updated[0]["file"], "models/small.glb")
+        self.assertFalse(small_path.exists())
+        self.assertTrue((self.models_dir / "small.glb").exists())
+
+    def test_fix_large_files_leaves_compliant_and_two_gb_assets(self):
+        (self.models_dir / "ok.glb").write_text("ok", encoding="utf-8")
+        two_gb_dir = self.models_dir / "2gb-plus"
+        two_gb_dir.mkdir()
+        (two_gb_dir / "huge.glb").write_text("huge", encoding="utf-8")
+        assets = [
+            {
+                "name": "Ok",
+                "file": "models/ok.glb",
+                "category": "Props",
+                "description": "",
+                "size_bytes": 10,
+            },
+            {
+                "name": "Huge",
+                "file": "models/2gb-plus/huge.glb",
+                "category": "Props",
+                "description": "",
+                "size_bytes": generator.LARGE_FILE_LIMIT + 1,
+            },
+        ]
+        updated, moves = generator.fix_large_files(assets)
+        self.assertEqual(moves, [])
+        self.assertEqual(updated[0]["file"], "models/ok.glb")
+        self.assertEqual(updated[1]["file"], "models/2gb-plus/huge.glb")
+        self.assertTrue((self.models_dir / "ok.glb").exists())
+        self.assertTrue((two_gb_dir / "huge.glb").exists())
+
 
     def test_check_size_policy_flags_oversized_file_outside_large(self):
         assets = [{"file": "models/big.glb", "size_bytes": generator.LARGE_FILE_LIMIT + 1}]

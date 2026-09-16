@@ -70,6 +70,8 @@ Script de mantenimiento que:
 - detecta modelos nuevos en `models/`
 - normaliza nombres y rutas
 - valida entradas duplicadas o rotas
+- detecta activos mal ubicados según la política de tamaño (`check_size_policy`)
+- puede reubicarlos en disco con `--fix-large` (`fix_large_files`)
 - actualiza `assets.json`
 
 ### `run_automation.py` y `run_automation.bat`
