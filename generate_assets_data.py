@@ -9,6 +9,8 @@ ASSETS_FILE = BASE_DIR / "assets.json"
 MODELS_DIR = BASE_DIR / "models"
 REPORT_FILE = BASE_DIR / "assets-report.json"
 LARGE_FILE_WARNINGS = (10 * 1024 * 1024, 100 * 1024 * 1024)
+LARGE_FILE_LIMIT = LARGE_FILE_WARNINGS[1]
+TWO_GB_LIMIT = 2 * 1024 * 1024 * 1024
 
 # region File and metadata utilities
 
@@ -195,6 +197,44 @@ def warn_large_files(assets):
     return warnings
 
 
+def check_size_policy(assets):
+    """Comprueba que cada activo vive en la carpeta que indica su tamaño."""
+    policy_issues = []
+
+    for asset in assets:
+        file_path = asset.get("file", "")
+        size_bytes = asset.get("size_bytes")
+        if not file_path or not isinstance(size_bytes, int):
+            continue
+
+        size_mb = size_bytes / (1024 * 1024)
+        size_gb = size_bytes / (1024 * 1024 * 1024)
+        in_large = file_path.startswith("models/large/")
+        in_two_gb = file_path.startswith("models/2gb-plus/")
+
+        if size_bytes > TWO_GB_LIMIT and not in_two_gb:
+            policy_issues.append(
+                f"[POLITICA] {file_path} supera 2 GB ({size_gb:.1f} GB); debe vivir en "
+                "models/2gb-plus/ fuera del repositorio (LFS o almacenamiento externo)."
+            )
+        elif size_bytes > LARGE_FILE_LIMIT and not in_large and not in_two_gb:
+            policy_issues.append(
+                f"[POLITICA] {file_path} supera 100 MB ({size_mb:.1f} MB); muévelo a models/large/."
+            )
+        elif in_large and size_bytes <= LARGE_FILE_LIMIT:
+            policy_issues.append(
+                f"[POLITICA] {file_path} está en models/large/ con {size_mb:.1f} MB; "
+                "puede volver a models/."
+            )
+        elif in_two_gb and size_bytes <= TWO_GB_LIMIT:
+            policy_issues.append(
+                f"[POLITICA] {file_path} está en models/2gb-plus/ con {size_gb:.1f} GB; "
+                "debe estar en models/large/ (o en models/ si no supera 100 MB)."
+            )
+
+    return policy_issues
+
+
 def generate_report(assets, issues, warnings, output_path=None):
     if output_path is None:
         output_path = REPORT_FILE
@@ -245,16 +285,22 @@ def main(argv=None):
 
     assets, new_assets = collect_new_assets(assets)
     warnings = warn_large_files(assets)
+    policy_issues = check_size_policy(assets)
 
     if warnings:
         print("\n[WARN] Archivos grandes detectados:")
         for warning in warnings:
             print(f"  - {warning}")
 
+    if policy_issues:
+        print("\n[WARN] Activos que no cumplen la política de archivos grandes:")
+        for issue in policy_issues:
+            print(f"  - {issue}")
+
     persist_assets(assets)
 
     if args.report:
-        report_path = generate_report(assets, issues, warnings)
+        report_path = generate_report(assets, issues, warnings + policy_issues)
         print(f"\n[OK] Reporte generado: {report_path.name}")
 
     if new_assets:

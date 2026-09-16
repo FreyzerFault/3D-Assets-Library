@@ -116,5 +116,90 @@ class GenerateAssetsDataMoreTests(unittest.TestCase):
         self.assertEqual(payload["summary"]["warnings"], 1)
 
 
+    def test_check_size_policy_flags_oversized_file_outside_large(self):
+        assets = [{"file": "models/big.glb", "size_bytes": generator.LARGE_FILE_LIMIT + 1}]
+        issues = generator.check_size_policy(assets)
+        self.assertEqual(len(issues), 1)
+        self.assertIn("models/large/", issues[0])
+
+    def test_check_size_policy_flags_file_over_two_gb(self):
+        assets = [
+            {"file": "models/large/huge.glb", "size_bytes": generator.TWO_GB_LIMIT + 1}
+        ]
+        issues = generator.check_size_policy(assets)
+        self.assertEqual(len(issues), 1)
+        self.assertIn("models/2gb-plus/", issues[0])
+
+    def test_check_size_policy_accepts_correctly_placed_files(self):
+        assets = [
+            {"file": "models/normal.glb", "size_bytes": generator.LARGE_FILE_LIMIT},
+            {
+                "file": "models/large/heavy.glb",
+                "size_bytes": generator.LARGE_FILE_LIMIT + 1,
+            },
+            {
+                "file": "models/2gb-plus/massive.glb",
+                "size_bytes": generator.TWO_GB_LIMIT + 1,
+            },
+        ]
+        self.assertEqual(generator.check_size_policy(assets), [])
+
+    def test_check_size_policy_flags_undersized_file_in_large(self):
+        assets = [{"file": "models/large/small.glb", "size_bytes": 10 * 1024 * 1024}]
+        issues = generator.check_size_policy(assets)
+        self.assertEqual(len(issues), 1)
+        self.assertIn("puede volver a models/", issues[0])
+
+    def test_check_size_policy_flags_undersized_file_in_two_gb(self):
+        assets = [
+            {"file": "models/2gb-plus/medium.glb", "size_bytes": 500 * 1024 * 1024}
+        ]
+        issues = generator.check_size_policy(assets)
+        self.assertEqual(len(issues), 1)
+        self.assertIn("models/2gb-plus/", issues[0])
+
+    def test_check_size_policy_ignores_entries_without_size(self):
+        assets = [{"file": "models/unknown.glb"}, {"file": "", "size_bytes": 5}]
+        self.assertEqual(generator.check_size_policy(assets), [])
+
+    def test_main_includes_policy_issues_in_report(self):
+        big_size = generator.LARGE_FILE_LIMIT + 1
+        (self.models_dir / "big.glb").write_text("big", encoding="utf-8")
+        (self.tmp_path / "assets.json").write_text(
+            json.dumps(
+                [
+                    {
+                        "name": "Big",
+                        "file": "models/big.glb",
+                        "category": "Props",
+                        "description": "",
+                    }
+                ],
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+
+        original_metadata = generator.get_file_metadata
+        original_report_file = generator.REPORT_FILE
+        try:
+            generator.REPORT_FILE = self.tmp_path / "assets-report.json"
+            generator.get_file_metadata = lambda file_path: {
+                "size_bytes": big_size,
+                "modified_at": "2026-09-16T00:00:00+00:00",
+            }
+            generator.main(["--report"])
+        finally:
+            generator.get_file_metadata = original_metadata
+            generator.REPORT_FILE = original_report_file
+
+        report = json.loads(
+            (self.tmp_path / "assets-report.json").read_text(encoding="utf-8")
+        )
+        policy_warnings = [w for w in report["warnings"] if "[POLITICA]" in w]
+        self.assertEqual(len(policy_warnings), 1)
+        self.assertIn("models/large/", policy_warnings[0])
+
+
 if __name__ == "__main__":
     unittest.main()
