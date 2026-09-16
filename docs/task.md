@@ -1,4 +1,4 @@
-# Backlog y Snapshot (versión SDD, resumida)
+# Cola de trabajo
 
 ## Snapshot breve
 
@@ -7,87 +7,70 @@
 - Estado: catálogo funcional con 28 assets, validación normalizada, métricas registradas y flujos automatizados listos.
 - Calidad: suite estable, cobertura registrada en `docs/metrics_log.json`, script de registro automático y CI configurado.
 
-## Trabajo completado (evidencia)
+## Cómo se usa este archivo
 
-- Resolución de rutas relativa al script (BASE_DIR). (`generate_assets_data.py`)
-- Normalización de nombres y rutas en `assets.json`.
-- Añadidos tests de smoke que pasan (`tests/test_generate_assets_data.py`).
-- Validación básica de duplicados y archivos faltantes.
-- Metadata operativa añadida: `size_bytes` y `modified_at` para cada asset, con avisos por archivos >10 MB y >100 MB.
+- La cola activa son las tareas pendientes, ordenadas por prioridad.
+- Cada tarea declara Qué / Por qué / DoD para poder verificarla sin ambigüedad.
+- Al cerrar una tarea, se mueve a `docs/task_archive.md` con su evidencia.
+- El backlog extendido recoge ideas sin compromiso, todavía sin DoD.
 
-## Prioridad actual (próximo sprint)
+## Cola activa (pendiente)
 
-Ordenado por impacto y coste (alta → baja). Cada ítem incluye criterio de aceptación (DoD).
+### Ahora
 
-- [COMPLETADO] Metadata operativa y tamaño (Alta)
-  - Qué: extraer tamaño de archivo, fecha de modificación y añadir campos `size_bytes`, `modified_at` al catálogo.
-  - Por qué: detectar assets pesados y habilitar filtros/umbrales.
-  - DoD cumplido: `generate_assets_data.py` añade `size_bytes` y `modified_at`; el script reporta avisos para archivos >10MB y >100MB.
+- [ ] **T1 — Normalizar las rutas de documentación en los SKILL.md** (impacto medio / coste bajo)
+  - Qué: `.agents/skills/implement-task/SKILL.md`, `.agents/skills/project-review/SKILL.md` y `.agents/skills/test-and-verify/SKILL.md` referencian `docs/architecture.md`, `docs/specifications.md`, `docs/testing.md` y `docs/metrics.md` en minúsculas, pero los ficheros reales están en mayúsculas.
+  - Por qué: en Linux (CI) esas rutas no existen y los flujos de agentes leen documentación inexistente.
+  - DoD: los tres SKILL.md usan los nombres reales y no queda ninguna referencia en minúsculas.
 
-- [COMPLETADO] Política de naming y normalización (Alta)
-  - Qué: definir y aplicar reglas simples de limpieza de nombres y detectar conflictos tras normalizar.
-  - DoD cumplido: el script normaliza `name` y `file`, elimina espacios redundantes y reporta nombres duplicados tras la normalización.
+- [ ] **T2 — Cubrir los caminos de error de los scripts operativos** (impacto alto / coste medio)
+  - Qué: tests para `scripts/record_metrics.py` (coverage.json ausente o inválido, `assets-report.json` corrupto, fallo de `git rev-parse`), `scripts/metrics_trend.py` (historial vacío, entradas sin `coverage_total`) y `run_automation.py` (parada temprana y secuencia completa).
+  - Por qué: es el pipeline que sostiene las métricas; un fallo silencioso deja el registro desactualizado sin avisar.
+  - DoD: nuevos tests en verde y cobertura de `scripts/` y `run_automation.py` por encima del umbral `fail_under = 70` de `.coveragerc`.
 
-- [COMPLETADO] Validación y reporting (Media)
-  - Qué: mejorar mensajes de validación, salida CLI y generar un `assets-report.json` con issues detectados.
-  - DoD cumplido: ejecución `python generate_assets_data.py --report` genera `assets-report.json` con listas `errors` y `warnings`.
+### Siguiente
 
-- [COMPLETADO] UX móvil: paginación / carga diferida (Media)
-  - Qué: implementar paginación simple + carga diferida de visores para reducir consumo en móviles.
-  - DoD cumplido: la vista carga un bloque inicial de assets, permite cargar más y retarda la creación de los visores `model-viewer` hasta que el elemento entra en pantalla.
+- [ ] **T4 — Verificar la política de archivos grandes** (impacto medio / coste medio)
+  - Qué: comprobación reproducible que detecte activos mal ubicados según la política (`models/large/` para >100 MB, `models/2gb-plus/` para >2 GB fuera de git) y avise con instrucciones.
+  - Por qué: hoy la política existe solo como convención documentada; nada la hace cumplir.
+  - DoD: la comprobación lista los activos mal ubicados y está cubierta por tests.
 
-- [COMPLETADO] CI de generación y validación (Baja)
-  - Qué: añadir workflow de GitHub Actions que ejecute los tests y valide que el catálogo y el reporte se regeneran correctamente.
-  - DoD cumplido: existe `.github/workflows/ci.yml`, con ejecución automática en push/PR y validación del catálogo y `assets-report.json`.
+- [ ] **T5 — Búsqueda y filtros en la web** (impacto medio / coste medio)
+  - Qué: filtro por categoría y búsqueda por nombre sobre `assets.json`, integrados con la paginación existente.
+  - Por qué: con 28 assets, recorrer la cuadrícula a mano ya es incómodo.
+  - DoD: se puede filtrar y buscar sin recargar y la paginación sigue funcionando.
 
-- [COMPLETADO] Despliegue automático a GitHub Pages (Baja)
-  - Qué: preparar un workflow que publique el sitio estático completo en GitHub Pages.
-  - DoD cumplido: existe `.github/workflows/deploy-pages.yml` para despliegue manual o automático desde la rama principal.
+- [ ] **T6 — Categorías reales y tags por asset** (impacto medio / coste medio)
+  - Qué: hoy todo asset nuevo entra como `category: "Props"` y sin tags. Definir categorías útiles y tags legibles, soportados en `assets.json` y en la UI.
+  - Por qué: habilita T5 y mejora la descripción del catálogo.
+  - DoD: el catálogo admite varios valores de categoría y tags, y la web los muestra.
 
-- [COMPLETADO] Calidad local y cobertura (Alta)
-  - Qué: añadir pre-commit para lint/format y un job de coverage en CI con artefacto local.
-  - Por qué: evitar regresiones pequeñas, mantener el código legible y documentar el nivel de cobertura real.
-  - DoD cumplido: existen `.pre-commit-config.yaml`, `.flake8`, `.coveragerc` y el workflow CI ejecuta lint + coverage + validación del catálogo.
+- [ ] **T7 — Descriptions reales en el frontmatter de los SKILL.md** (impacto bajo / coste bajo)
+  - Qué: los tres `SKILL.md` llevan `description: Brief description of what this skill does` como marcador de posición, y sus secciones `## Usage` son frases sueltas poco informativas.
+  - Por qué: es el texto que ve un agente para decidir si la skill encaja; un marcador de posición anula esa señal.
+  - DoD: cada `SKILL.md` describe en una línea qué hace y cuándo usarla, sin marcadores de posición.
 
-- [COMPLETADO] Registro de métricas y tendencia (Alta)
-  - Qué: añadir scripts para registrar cobertura, generar un log histórico y producir una tendencia ASCII legible.
-  - Por qué: monitorizar el progreso del proyecto con historial de tests y cobertura sin quitar sencillez ni complejidad.
-  - DoD cumplido: existen `scripts/record_metrics.py`, `scripts/metrics_trend.py`, `docs/METRICS.md`, `docs/metrics_log.md` y `docs/metrics_log.json`.
+### Aparcado (requiere decisión explícita)
 
-- [COMPLETADO] Punto único de automatización (Alta)
-  - Qué: añadir `run_automation.py` y `run_automation.bat` como entrada única para regenerar el catálogo, ejecutar tests y registrar métricas con un solo clic.
-  - Por qué: reducir fricción operativa y hacer más mantenible la rutina de validación del proyecto.
-  - DoD cumplido: el launcher invoca la generación, validación y métricas en secuencia y puede ejecutarse mediante doble clic en Windows.
+- Historial y versionado por asset: depende de que el catálogo crezca y de T6.
+- Visibilidad pública/privada y capa de administración: contradice el no-goal "sin backend" hasta que se pida explícitamente.
+- Asociación many-to-many con proyectos `.blend`: depende de T6.
+- Migración a paquete Python (`src/`, `pyproject.toml`) o bundler de frontend: solo si crecen el catálogo y los colaboradores.
 
-- [COMPLETADO] Higiene del repositorio y artefactos locales (Media)
-  - Qué: excluir cachés y artefactos generados del versionado y mantener el repositorio limpio.
-  - Por qué: evitar ruido en git y conservar la trazabilidad del proyecto.
-  - DoD cumplido: existe `.gitignore` con exclusiones para cachés Python y cobertura local.
+## Backlog extendido (sin DoD todavía)
 
-- [COMPLETADO] Tests de regresión para scripts de métricas (Media)
-  - Qué: validar analizadores del historial, cobertura y tendencia para evitar roturas del pipeline de métricas.
-  - DoD cumplido: existe `tests/test_metrics_scripts.py` y pasa en la suite del proyecto.
-
-## Backlog extendido (para fases siguientes)
-
-- Historia/versionado por asset (historial mínimo en JSON).
-- Tags, visibilidad (public/private/unlisted) y filtros asociados.
 - Asociación many-to-many con proyectos `.blend` u otros.
-- Políticas y herramientas para manejar archivos grandes (mover a carpeta / usar LFS).
-- Interfaz admin segura (requiere backend o token-based flow).
+- Historial de cambios por asset.
+- Políticas y herramientas para manejar archivos grandes (mover a carpeta / usar LFS), más allá de la comprobación de T4.
+- Visibilidad (public/private/unlisted) y capa de administración: solo con decisión explícita sobre backend.
 
 ## Reglas de priorización y trabajo
 
 - Priorizar cambios que mejoren la calidad del catálogo y reduzcan riesgo de ruptura de la web.
-- Prefieren soluciones simples y reversibles antes que re-arquitecturas.
+- Preferir soluciones simples y reversibles antes que re-arquitecturas.
 - Documentar cada cambio en README y en SPECIFICATIONS.md / ARCHITECTURE.md.
-
-## Próximos pasos recomendados (acción inmediata)
-
-1. Mantener el backlog sincronizado con la documentación cuando cambien requisitos o arquitectura.
-2. Mejorar la cobertura y la interpretación de las métricas de referencia si se amplía el código del proyecto.
-3. Continuar con la política de archivos grandes y la organización de `models/` si el catálogo crece.
+- Cerrar una tarea solo cuando su DoD sea verificable; entonces se mueve a `docs/task_archive.md`.
 
 ---
 
-Resumen: task.md es un backlog compacto, alineado con SPECIFICATIONS.md y ARCHITECTURE.md. Los flujos básicos (catálogo, validación, CI, despliegue, métricas y automatización única) ya están listos; la prioridad actual es mantener la documentación al día y controlar el crecimiento del catálogo sin añadir complejidad innecesaria.
+Este fichero es la cola activa. Los flujos base (catálogo, validación, CI, despliegue, métricas y automatización) ya están cerrados y archivados en `docs/task_archive.md`; el trabajo pendiente es el de la cola de arriba.
